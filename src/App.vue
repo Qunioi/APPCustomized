@@ -1,7 +1,9 @@
 <template>
   <div class="page-wrap">
     <Header />
-    <main>main</main>
+    <main>
+      <router-view />
+    </main>
     <Footer />
   </div>
 </template>

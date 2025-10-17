@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "number": "M21081101",
+      "title": "版7-M21081101",
+      "date": "2021-08-11",
+      "defaultTheme": "dark"
+    },
+    {
+      "id": 2,
+      "number": "M21091501",
+      "title": "版8-M21091501",
+      "date": "2021-09-15",
+      "defaultTheme": "light"
+    },
+    {
+      "id": 3,
+      "number": "M23061401",
+      "title": "版10-M23061401",
+      "date": "2023-06-14",
+      "defaultTheme": "light"
+    },
+    {
+      "id": 4,
+      "number": "M24092601",
+      "title": "版11-M24092601",
+      "date": "2024-09-26",
+      "defaultTheme": "dark"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+body {
+	overflow-x: hidden;
+  min-width: 990px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #272727;
+  background-color: #F3F3F1;
+  margin: 0 auto;
+  &::before, &::after {
+    content: '';
+    display: block;
+    width: 1483px;
+    height: 1181px;
+    background-image: url('/image/decor-gradient-points.svg');
+    background-size: cover;
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+  }
+  &::before {
+    top: 300px;
+    right: 80%;
+  }
+  &::after {
+    top: 660px;
+    right: -250px;
+  }
+  @media screen and (max-width: 990px) {
+    overflow-x: auto;
+  }
+}
+
+.header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1560px;
+  padding: 3rem 1rem 4rem;
+  margin: 0 auto;
+}
+
+.header-logo,
+.header-feedback {
+  flex: 1;
+}
+
+.header-navigation {
+  flex: 3;
+  text-align: center;
+  .header-navigation-menu {
+    .header-navigation-item {
+      width: 74px;
+      font-size: 15px;
+      color: var(--color-secondary);
+      text-decoration: none;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+      margin: 0 1.5vw;
+      &:hover {
+        font-weight: bold;
+      }
+      &--active {
+        font-weight: bold;
+        border-bottom: 1px solid var(--color-secondary);
+      }
+    }
+  }
+}
+
+.header-feedback {
+  text-align: right;
+  position: relative;
+  .header-feedback-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    &:hover+.header-feedback-tips {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  .header-feedback-tips {
+    pointer-events: none;
+    cursor: auto;
+    font-size: 12px;
+    color: #FFF;
+    background-color: rgb(0 0 0 / 80%);
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    position: absolute;
+    top: 100%;
+    right: -20px;
+    z-index: 9;
+    white-space: nowrap;
+    transition: opacity .3s, transform .3s;
+    transform: translateY(10px);
+    opacity: 0;
+    &::after {
+      content: '';
+      border-color: transparent transparent #222 transparent;
+      border-style: solid;
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 6px 6px 6px;
+    }
+  }
+}
+footer {
+  font-size: 13px;
+  text-align: center;
+	padding: 50px 1rem;
+}

@@ -1,0 +1,91 @@
+@use 'sass:list';
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.15; // 校正瀏覽器 line-height
+    -webkit-text-size-adjust: 100%; // 避免iOS裝置旋轉後調整文字大小
+}
+
+/* margin padding 標準化 */
+body, div, ul, ol, li, td, input, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* 移除清單list-style樣式 */
+ul {
+    list-style: none;
+}
+
+/* font-style */
+strong {
+    font-style: normal;
+}
+
+/* font-weight */
+th {
+    font-weight: normal;
+}
+
+/* font-family */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+input,
+select,
+textarea {
+    &:focus {
+        outline: none;
+    }
+}
+
+/* del table border */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* delete img border */
+img {
+    border: 0;
+}
+
+/* caption and th text-align:left */
+th {
+    text-align: left;
+}
+
+/* a */
+a {
+    outline: none; /* for Firefox Google Chrome */
+    text-decoration: none;
+}
+
+/* button */
+button {
+    cursor: pointer;
+    outline: none;
+    font-size: inherit;
+    border: 0;
+    padding: 0;
+}
+
+
+
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}

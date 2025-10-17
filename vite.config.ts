@@ -32,6 +32,14 @@ export default defineConfig(({ mode }) => {
     server: {
       port: Number(env.VITE_PORT) || 3001,
       host: true,
-    }
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
   }
 })
