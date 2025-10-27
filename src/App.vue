@@ -1,11 +1,9 @@
 <template>
-  <div class="page-wrap">
-    <Header />
-    <main>
-      <router-view />
-    </main>
-    <Footer />
-  </div>
+  <Header />
+  <main>
+    <router-view />
+  </main>
+  <Footer />
 </template>
 
 <script setup lang="ts">

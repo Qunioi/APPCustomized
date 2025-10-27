@@ -1,44 +1,49 @@
 <template>
   <div class="container">
     <div class="product-wrap">
-    <div
-      v-for="(product, index) in products"
-      :key="product.id"
-      class="product-item"
-      @mouseenter="activeProductIndex = index"
-      @mouseleave="activeProductIndex = null">
-      <div class="product-item-img-wrap">
-        <transition name="fade">
-          <div v-if="activeProductIndex === index" class="product-item--hover">
-            <div class="product-item-qrcode">
-              <img :src="`/image/products/${product.number}/qrcode_${product.defaultTheme}.jpg`" :alt="product.title">
+      <div
+        v-for="(product, index) in products"
+        :key="product.id"
+        class="product-item"
+        @mouseenter="activeProductIndex = index"
+        @mouseleave="activeProductIndex = null">
+        <div class="product-item-img-wrap">
+          <transition name="fade">
+            <div v-if="activeProductIndex === index" class="product-item--hover">
+              <div class="product-item-qrcode">
+                <!-- 改用 selectedTheme[product.id] -->
+                <img :src="`/image/products/${product.number}/qrcode_${selectedTheme[product.id]}.jpg`" :alt="product.title">
+              </div>
+              <p class="product-item-text">请扫描二维码预览模板<br>For iOS & Android</p>
+              <div class="product-item-btn-group">
+                <button class="product-item-btn" @click="selectTemplate(product.number, selectedTheme[product.id], 'color')">选择纯换色</button>
+                <button class="product-item-btn" @click="selectTemplate(product.number, selectedTheme[product.id], 'custom')">选择客制化</button>
+              </div>
             </div>
-            <p class="product-item-text">请扫描二维码预览模板<br>For iOS & Android</p>
-            <button class="product-item-btn" @click="selectTemplate(product.number, selectedTheme[product.id])">选择此模板</button>
-          </div>
-        </transition>
-        <img class="product-item-img" :src="`/image/products/${product.number}/theme_${product.defaultTheme}.jpg`" :alt="product.title">
-      </div>
-      <div class="product-item-info">
-        <div class="product-item-left">
-          <h3 class="product-item-title">{{ product.title }}</h3>
-          <p class="product-item-date">{{ product.date }}</p>
+          </transition>
+          <!-- 改用 selectedTheme[product.id] -->
+          <img class="product-item-img" :src="`/image/products/${product.number}/theme_${selectedTheme[product.id]}.jpg`" :alt="product.title">
         </div>
-        <div class="product-item-right">
-          <button
-            :class="['product-item-theme-btn', { active: selectedTheme[product.id] === 'dark' }]"
-            @click="selectedTheme[product.id] = 'dark'">
-            深色版
-          </button>
-          <button
-            :class="['product-item-theme-btn', { active: selectedTheme[product.id] === 'light' }]"
-            @click="selectedTheme[product.id] = 'light'">
-            浅色版
-          </button>
+        <div class="product-item-info">
+          <div class="product-item-left">
+            <h3 class="product-item-title">{{ product.title }}</h3>
+            <p class="product-item-date">{{ product.date }}</p>
+          </div>
+          <div class="product-item-theme-switch">
+            <button
+              :class="['product-item-theme-btn', { active: selectedTheme[product.id] === 'dark' }]"
+              @click="selectedTheme[product.id] = 'dark'">
+              深色版
+            </button>
+            <button
+              :class="['product-item-theme-btn', { active: selectedTheme[product.id] === 'light' }]"
+              @click="selectedTheme[product.id] = 'light'">
+              浅色版
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     <div class="process-wrap">
       <div class="process-header">
         <div class="process-slogan"></div>
@@ -56,8 +61,7 @@
               nextEl: '.process-card-btn--next',
               prevEl: '.process-card-btn--prev',
             }"
-            :slides-per-view="2"
-            :loop="true"
+            :loop-additional-slides="2"
             :space-between="10"
             :breakpoints="{
               1024: {
@@ -136,8 +140,8 @@
           1600: {
             slidesPerView: 7,
           }
-        }">>
-        <SwiperSlide v-for="platform in ['panda','mg','pp','mt','fg','r88','sg','db']" :key="platform">
+        }">
+        <SwiperSlide v-for="platform in ['panda','mg','pp','mt','fg','r88','db','bbcasino']" :key="platform">
           <div class="platform-card-image">
             <img :src="`/image/platform/${platform}.png`" :alt="platform">
           </div>
@@ -163,8 +167,12 @@ const selectedTheme = reactive<Record<number, 'dark' | 'light'>>(
     data.products.map(product => [product.id, product.defaultTheme as 'dark' | 'light'])
   )
 )
-const selectTemplate = (number: string, theme: 'dark' | 'light') => {
-  router.push(`/${number}/${theme}`)
+
+const selectTemplate = (number: string, theme: 'dark' | 'light', type: 'color' | 'custom') => {
+  router.push({
+    path: `/${number}/${theme}`,
+    query: { type }
+  })
 }
 
 const process = ref([
