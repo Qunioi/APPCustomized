@@ -12,13 +12,16 @@
       </div>
       <div class="page-content">
         <div class="icon-wrap">
-          <div class="icon-item" v-for="n in 4">
+          <div class="icon-item" v-for="(icon) in iconList.icons" :key="icon.id">
             <div class="icon-item-img">
               <img src="" alt="">
             </div>
             <div class="icon-item-info">
-              <h3 class="icon-item-title">ICON21091501</h3>
-              <p class="icon-item-date">2021-09-15</p>
+              <div class="icon-item-infor">
+                <h3 class="icon-item-title">{{ icon.title }}</h3>
+                <p class="icon-item-date">{{ icon.date }}</p>
+              </div>
+              <button class="icon-item-btn" @click="handleViewIcon(icon)">查看全部</button>
             </div>
           </div>
         </div>
@@ -26,3 +29,14 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { inject } from 'vue'
+import iconList from '@/data/iconList.json'
+
+const openIconDialog = inject<(data: any) => void>('openIconDialog')
+
+const handleViewIcon = (icon: any) => {
+  openIconDialog?.(icon)
+}
+</script>

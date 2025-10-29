@@ -25,7 +25,7 @@
           <img class="product-item-img" :src="`/image/products/${product.number}/theme_${selectedTheme[product.id]}.jpg`" :alt="product.title">
         </div>
         <div class="product-item-info">
-          <div class="product-item-left">
+          <div class="product-item-infor">
             <h3 class="product-item-title">{{ product.title }}</h3>
             <p class="product-item-date">{{ product.date }}</p>
           </div>
@@ -61,8 +61,9 @@
               nextEl: '.process-card-btn--next',
               prevEl: '.process-card-btn--prev',
             }"
-            :loop-additional-slides="2"
+            :loop="false"
             :space-between="10"
+            :slides-per-view="2"
             :breakpoints="{
               1024: {
                 slidesPerView: 2,
@@ -157,14 +158,14 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import data from '@/data/data.json'
+import templateList from '@/data/templateList.json'
 
 const router = useRouter()
 const activeProductIndex = ref<number | null>(null)
-const products = ref(data.products)
+const products = ref(templateList.products)
 const selectedTheme = reactive<Record<number, 'dark' | 'light'>>(
   Object.fromEntries(
-    data.products.map(product => [product.id, product.defaultTheme as 'dark' | 'light'])
+    templateList.products.map(product => [product.id, product.defaultTheme as 'dark' | 'light'])
   )
 )
 

@@ -194,7 +194,7 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import data from '@/data/data.json'
+import templateList from '@/data/templateList.json'
 
 const route = useRoute()
 const router = useRouter()
@@ -208,7 +208,7 @@ const ProductContent = shallowRef<Component | null>(null)
 
 // 根據產品編號查找產品資料
 const product = computed(() => {
-  return data.products.find(p => p.number === productNumber.value)
+  return templateList.products.find(p => p.number === productNumber.value)
 })
 
 // 動態載入產品組件
