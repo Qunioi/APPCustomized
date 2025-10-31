@@ -12,6 +12,7 @@ import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import Dialog from './components/Dialog.vue'
 import { useRoute } from 'vue-router'
+
 const route = useRoute()
 const dialogRef = ref()
 

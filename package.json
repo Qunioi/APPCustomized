@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "cross-env SASS_SILENCE_DEPRECATIONS=legacy-js-api vite",
-    "build": "cross-env SASS_SILENCE_DEPRECATIONS=legacy-js-api vite build",
-    "preview": "cross-env SASS_SILENCE_DEPRECATIONS=legacy-js-api vite preview"
+    "build": "cross-env SASS_SILENCE_DEPRECATIONS=legacy-js-api vite build && find dist -name .DS_Store -delete",
+    "preview": "cross-env SASS_SILENCE_DEPRECATIONS=legacy-js-api vite preview",
+    "clean:ds": "find . -name .DS_Store -delete"
   },
   "dependencies": {
     "pinia": "^2.3.1",

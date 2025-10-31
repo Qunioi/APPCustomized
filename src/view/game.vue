@@ -8,7 +8,7 @@
         </div>
         <div class="page-header-bottom">
           <div class="page-header-tips">平台入口图档案名称请依照 ID 号码命名，并依照类别分资料夹存放</div>
-          <div class="page-header-date">表單更新時間：2025/07/08</div>
+          <div class="page-header-date">表单更新时间：2025/07/08</div>
         </div>
       </div>
       <div class="page-content">
@@ -38,9 +38,5 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
 import gameList from '@/data/gameList.json'
-
-const route = useRoute()
-const router = useRouter()
 </script>

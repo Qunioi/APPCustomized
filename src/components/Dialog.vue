@@ -6,10 +6,10 @@
       @click.self="closeDialog"
       >
 
-      <!-- Feedback 內容 -->
+      <!-- Feedback 内容 -->
       <div v-if="dialogType === 'feedback'" class="feedback-wrap" @animationend="onAnimationEnd">
         <div class="feedback-header">
-          <div class="feedback-header-title">問題提問</div>
+          <div class="feedback-header-title">问题提问</div>
           <div class="feedback-header-description">若您对APP客制化流程有任何问题或建议，<br>欢迎填写表单回馈，我们将派专人与您联系。</div>
           <button class="feedback-close-btn" @click="closeDialog">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.61763 9.00002L0 1.3824L1.3824 0L9.00002 7.61754L16.6176 0L18 1.3824L10.3824 9.00002L18 16.6175L16.6176 18L9.00002 10.3824L1.3824 18L0 16.6175L7.61763 9.00002Z" fill="black"/></svg>
@@ -65,7 +65,7 @@
                     @change="handleFileChange"
                   />
                   <label for="image" class="image-upload-label">
-                    <div v-if="!imagePreview" class="image-upload-btn"><div class="btn">選擇檔案</div><span>未选择任何档案</span></div>
+                    <div v-if="!imagePreview" class="image-upload-btn"><div class="btn">选择档案</div><span>未选择任何档案</span></div>
                     <img v-if="imagePreview" :src="imagePreview" alt="预览图" class="image-preview" />
                   </label>
                   <button
@@ -97,7 +97,7 @@
             <p>提交成功！感谢您的反馈</p>
           </div>
 
-          <!-- 錯誤提示 -->
+          <!-- 错误提示 -->
           <div v-if="showError" class="feedback-error">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -107,7 +107,7 @@
         </div>
       </div>
 
-      <!-- Icon Dialog 內容 -->
+      <!-- Icon Dialog 内容 -->
       <div v-else-if="dialogType === 'icon'" class="iconDialog-wrap" @animationend="onAnimationEnd">
         <div class="iconDialog-header">
           <div class="iconDialog-header-title">{{ iconData?.title }}</div>
@@ -130,7 +130,7 @@
               @click="switchTheme('light')">
               浅色版
             </button>
-            <div class="iconDialog-tips">※ 提醒您，選擇不同的深淺版本會對應不同的ICON配置。</div>
+            <div class="iconDialog-tips">※ 提醒您，选择不同的深浅版本会对应不同的ICON配置。</div>
           </div>
           <div class="iconDialog-images-wrap">
             <img :src="currentImagePath" :alt="iconData?.number" class="iconDialog-image">
@@ -145,7 +145,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, computed } from 'vue' // 加入 computed
+import { ref, nextTick, computed } from 'vue'
+const instance = getCurrentInstance()
+const $getImagePath = instance?.proxy?.$getImagePath
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwMzUckTYVrcIL_QALK3Br0fUAqpI6UJh_de5xS3mMmi-Fz06KfaG-LOFJdReIRBqlzyw/exec'
 
@@ -169,32 +171,32 @@ const showSuccess = ref(false)
 const showError = ref(false)
 const errorMessage = ref('提交失败，请稍后再试')
 
-// 判斷是否顯示主題切換按鈕
+// 判断是否显示主题切换按钮
 const showThemeSwitch = computed(() => {
   return iconData.value?.defaultTheme && iconData.value.defaultTheme !== 'none'
 })
 
-// 計算當前圖片路徑
+// 计算当前图片路径
 const currentImagePath = computed(() => {
   if (!iconData.value) return ''
   
   const { number, defaultTheme } = iconData.value
   
-  // 如果沒有主題或主題為 none,使用原始圖片
+  // 如果没有主题或主题为 none,使用原始图片
   if (!defaultTheme || defaultTheme === 'none') {
-    return `/image/products/${number}-fullview.jpg`
+    return $getImagePath(`template/${number}-fullview.jpg`)
   }
   
-  // 有主題時,根據當前選擇的主題顯示對應圖片
-  return `/image/products/${number}-fullview-${currentTheme.value}.jpg`
+  // 有主题时,根据当前选择的主题显示对应图片
+  return $getImagePath(`template/${number}-fullview-${currentTheme.value}.jpg`)
 })
 
-// 切換主題
+// 切换主题
 const switchTheme = (theme: 'light' | 'dark') => {
   currentTheme.value = theme
 }
 
-// 開啟 Feedback Dialog
+// 开启 Feedback Dialog
 const openFeedbackDialog = () => {
   dialogType.value = 'feedback'
   isOpen.value = true
@@ -203,12 +205,12 @@ const openFeedbackDialog = () => {
   })
 }
 
-// 開啟 Icon Dialog
+// 开启 Icon Dialog
 const openIconDialog = (data: any) => {
   dialogType.value = 'icon'
   iconData.value = data
   
-  // 設定預設主題
+  // 设定预设主题
   if (data.defaultTheme && data.defaultTheme !== 'none') {
     currentTheme.value = data.defaultTheme
   }
@@ -219,13 +221,13 @@ const openIconDialog = (data: any) => {
   })
 }
 
-// 關閉 Dialog
+// 关闭 Dialog
 const closeDialog = () => {
   isOpen.value = false
-  // 清空資料
+  // 清空资料
   setTimeout(() => {
     iconData.value = null
-    currentTheme.value = 'light' // 重置主題
+    currentTheme.value = 'light' // 重置主题
     formData.value = {
       name: '',
       unicode: '',
@@ -241,7 +243,7 @@ const onAnimationEnd = (e: AnimationEvent) => {
   }
 }
 
-// 處理圖片選擇
+// 处理图片选择
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
@@ -326,7 +328,7 @@ const handleSubmit = async () => {
     }, 3000)
 
   } catch (error) {
-    console.error('❌ 提交失敗:', error)
+    console.error('❌ 提交失败:', error)
     errorMessage.value = '提交失败，请稍后再试'
     showError.value = true
 

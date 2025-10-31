@@ -12,7 +12,7 @@
             <div v-if="activeProductIndex === index" class="product-item--hover">
               <div class="product-item-qrcode">
                 <img
-                  :src="`/image/products/${product.number}/qrcode_${selectedTheme[product.id]}.jpg`" 
+                  :src="getQRCodeUrl(product)"
                   :alt="product.title"
                   @click="openSlidesWindow(product)"
                 >
@@ -24,8 +24,11 @@
               </div>
             </div>
           </transition>
-          <!-- 改用 selectedTheme[product.id] -->
-          <img class="product-item-img" :src="`/image/products/${product.number}/theme_${selectedTheme[product.id]}.jpg`" :alt="product.title">
+          <img
+            class="product-item-img"
+            :src="$getImagePath(`template/${product.number}/theme_${selectedTheme[product.id]}.jpg`)"
+            :alt="product.title"
+          >
         </div>
         <div class="product-item-info">
           <div class="product-item-infor">
@@ -53,7 +56,7 @@
       </div>
       <div class="process-step-wrap">
         <div class="process-step-header">
-          <h2 class="process-step-header-text">客製化流程</h2>
+          <h2 class="process-step-header-text">客制化流程</h2>
           <p class="process-step-header-subtext">Customization Process</p>
         </div>
         <div class="process-step-content">
@@ -94,7 +97,7 @@
     </div>
     <div class="platform-wrap">
       <div class="platform-header">
-        <h2 class="platform-header-text">豐富的遊戲平台</h2>
+        <h2 class="platform-header-text">丰富的游戏平台</h2>
         <p class="platform-header-subtext">Rich Gaming Platforms</p>
         <div class="platform-header-line"><span></span><span></span><span></span></div>
       </div>
@@ -120,7 +123,7 @@
         }">
         <SwiperSlide v-for="platform in ['bb','saba','pt','kt','jdb','ne','crown','cq9']" :key="platform">
           <div class="platform-card-image">
-            <img :src="`/image/platform/${platform}.png`" :alt="platform">
+            <img :src="$getImagePath(`platform/${platform}.png`)" :alt="platform">
           </div>
         </SwiperSlide>
       </Swiper>
@@ -147,7 +150,7 @@
         }">
         <SwiperSlide v-for="platform in ['panda','mg','pp','mt','fg','r88','db','bbcasino']" :key="platform">
           <div class="platform-card-image">
-            <img :src="`/image/platform/${platform}.png`" :alt="platform">
+            <img :src="$getImagePath(`platform/${platform}.png`)" :alt="platform">
           </div>
         </SwiperSlide>
       </Swiper>
@@ -164,8 +167,17 @@ import 'swiper/css/navigation';
 import templateList from '@/data/templateList.json'
 
 const router = useRouter()
+const env = import.meta.env
 const activeProductIndex = ref<number | null>(null)
 const products = ref(templateList.products)
+
+// 生成 QR Code URL
+const getQRCodeUrl = (product: any) => {
+  const theme = selectedTheme.value[product.id]
+  const fileName = env.VITE_FILE_NAME || 'appCustomized'
+  const url = `${window.location.origin}/${fileName}/#/${product.number}/${theme}?type=slides`
+  return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`
+}
 
 const selectTemplate = (number: string, theme: 'dark' | 'light', type: 'color' | 'custom') => {
   router.push({
@@ -179,32 +191,22 @@ templateList.products.forEach(product => {
   selectedTheme.value[product.id] = product.defaultTheme || 'light'
 })
 
-// 開啟 Slides 新視窗 (加入錯誤處理)
+// 开启 Slides 新视窗 (加入错误处理)
 const openSlidesWindow = (product: any) => {
-  console.log('🔍 點擊產品:', product)
-
   const theme = selectedTheme.value[product.id]
-  console.log('🎨 選擇主題:', theme)
   try {
     const route = router.resolve({
-      name: 'product-slides',
-      params: {
-        number: product.number,
-        theme: theme
-      }
+      path: `/${product.number}/${theme}`,
+      query: { type: 'slides' }
     })
-    console.log('🔗 解析路由:', route)
-    console.log('📍 URL:', route.href)
-    // 開啟新分頁
+
     const newWindow = window.open(route.href, '_blank')
     if (!newWindow) {
-      console.error('❌ 瀏覽器阻擋彈出視窗')
-      alert('請允許彈出視窗,或檢查瀏覽器設定')
-    } else {
-      console.log('✅ 成功開啟新視窗')
+      console.error('❌ 浏览器阻挡弹出视窗')
+      alert('请允许弹出视窗,或检查浏览器设定')
     }
   } catch (error) {
-    console.error('❌ 開啟視窗錯誤:', error)
+    console.error('❌ 开启视窗错误:', error)
   }
 }
 

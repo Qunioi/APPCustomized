@@ -113,8 +113,10 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// 組合圖片路徑
+const instance = getCurrentInstance()
+const $getImagePath = instance?.proxy?.$getImagePath
+
 const getImagePath = (filename: string) => {
-  return `/image/products/${props.productNumber}/${props.theme}/${filename}`
+  return $getImagePath(`/template/${props.productNumber}/${props.theme}/${filename}`)
 }
 </script>

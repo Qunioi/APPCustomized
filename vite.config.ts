@@ -6,7 +6,7 @@ import path from 'node:path'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const base = mode === 'development' ? '/' : `/${env.VITE_VERSION}/`
+  const base = mode === 'development' ? '/' : `/${env.VITE_FILE_NAME}/`
 
   return {
     base,
@@ -40,6 +40,7 @@ export default defineConfig(({ mode }) => {
         scss: {
           api: 'modern-compiler',
           silenceDeprecations: ['legacy-js-api'],
+          additionalData: `@use "sass:math";`,
         },
       },
     },

@@ -20,7 +20,7 @@
             </button>
           </div>
           <div class="product-info-image">
-            <img :src="`/image/products/${product.number}/theme_${currentTheme}.jpg`" :alt="product.title">
+            <img :src="$getImagePath(`/template/${product.number}/theme_${currentTheme}.jpg`)" :alt="product.title">
           </div>
         </div>
         <div class="product-download-wrap">
@@ -45,7 +45,7 @@
       <div class="product-detail-right">
         <div class="product-detail-content">
           <div class="product-detail-content-header">
-            <div class="product-detail-content-tips">※ 提醒您，若所調整的配色與現有客製版型過於相似，BBIN 將無法進一步協助製作</div>
+            <div class="product-detail-content-tips">※ 提醒您，若所调整的配色与现有客制版型过于相似，BBIN 将无法进一步协助制作</div>
             <div class="product-detail-content-tabs">
               <button :class="['tab-item', { active: currentType === 'color' }]"
                 @click="switchType('color')">
@@ -68,7 +68,7 @@
                   :product-number="productNumber" />
               </template>
               <template #fallback>
-                <div class="loading">載入中...</div>
+                <div class="loading">载入中...</div>
               </template>
             </Suspense>
           </div>
@@ -85,30 +85,29 @@ import templateList from '@/data/templateList.json'
 const route = useRoute()
 const router = useRouter()
 
-// 從路由參數獲取產品編號和主題
+// 从路由参数获取产品编号和主题
 const productNumber = computed(() => route.params.number as string)
 const currentTheme = ref<'dark' | 'light'>(route.params.theme as 'dark' | 'light')
 const currentType = ref<'color' | 'custom'>((route.query.type as 'color' | 'custom') || 'color')
-// 改用 shallowRef 而不是 ref
 const ProductContent = shallowRef<Component | null>(null)
 
-// 根據產品編號查找產品資料
+// 根据产品编号查找产品资料
 const product = computed(() => {
   return templateList.products.find(p => p.number === productNumber.value)
 })
 
-// 動態載入產品組件
+// 动态载入产品组件
 const loadProductContent = () => {
   ProductContent.value = defineAsyncComponent(() =>
-    import(`@/components/products/${productNumber.value}.vue`)
+    import(`@/components/template/${productNumber.value}.vue`)
       .catch(() => {
-        console.error(`找不到產品組件: ${productNumber.value}.vue`)
-        return import('@/components/products/Default.vue') // 備用組件
+        console.error(`找不到产品组件: ${productNumber.value}.vue`)
+        return import('@/components/template/Default.vue')
       })
   )
 }
 
-// 切換主題 (保持 type 參數)
+// 切换主题
 const switchTheme = (theme: 'dark' | 'light') => {
   currentTheme.value = theme
   router.push({
@@ -117,7 +116,7 @@ const switchTheme = (theme: 'dark' | 'light') => {
   })
 }
 
-// 切換類型 (保持 theme 參數)
+// 切换类型
 const switchType = (type: 'color' | 'custom') => {
   currentType.value = type
   router.push({
@@ -127,8 +126,6 @@ const switchType = (type: 'color' | 'custom') => {
 }
 
 watch(() => productNumber.value, loadProductContent, { immediate: true })
-
-// 監聽路由變化，同步更新狀態
 watch(() => route.params.theme, (newTheme) => {
   if (newTheme) {
     currentTheme.value = newTheme as 'dark' | 'light'
@@ -140,10 +137,4 @@ watch(() => route.query.type, (newType) => {
     currentType.value = newType as 'color' | 'custom'
   }
 })
-
-
-// console.log('產品編號:', productNumber.value)
-// console.log('主題:', currentTheme.value)
-// console.log('產品資料:', product.value)
-// console.log('客製化類型:', currentType.value)
 </script>

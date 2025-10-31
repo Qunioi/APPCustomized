@@ -3,17 +3,17 @@
     <div class="page-container">
       <div class="page-header">
         <div class="page-header-top">
-          <h2 class="page-header-title">ICON樣式</h2>
+          <h2 class="page-header-title">ICON样式</h2>
         </div>
         <div class="page-header-bottom">
           <div class="page-header-tips">ICON图档案名称请依照ICON图包尺寸以及命名提供</div>
-          <div class="page-header-date">表單更新時間：2025/07/08</div>
+          <div class="page-header-date">表单更新时间：2025/07/08</div>
         </div>
       </div>
       <div class="page-content">
         <div class="icon-wrap">
           <div class="icon-item" v-for="(icon) in iconList.icons" :key="icon.id">
-            <div class="icon-item-img" :style="`background-image: url(/image/products/${icon.number}-preview.jpg);`"></div>
+            <div class="icon-item-img" :style="`background-image: url(${$getImagePath(`template/${icon.number}-preview.jpg`)});`"></div>
             <div class="icon-item-info">
               <div class="icon-item-infor">
                 <h3 class="icon-item-title">{{ icon.title }}</h3>

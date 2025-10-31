@@ -8,8 +8,8 @@ body {
   &::before, &::after {
     content: '';
     display: block;
-    width: 1483px;
-    height: 1181px;
+    width: 1500px;
+    height: 1200px;
     background-image: url('/image/decor-gradient-points.svg');
     background-size: cover;
     pointer-events: none;
@@ -18,10 +18,10 @@ body {
   }
   &::before {
     top: 300px;
-    right: 80%;
+    right: 70%;
   }
   &::after {
-    top: 660px;
+    top: 500px;
     right: -250px;
   }
   @media screen and (max-width: 990px) {
