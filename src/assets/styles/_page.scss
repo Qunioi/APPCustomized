@@ -106,8 +106,13 @@
     padding: 1rem;
     position: relative;
     .icon-item-img {
-      width: 100%;
+      width: 90%;
+      height: 200px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
       border-radius: 10px;
+      margin: 0 auto;
     }
     .icon-item-info {
       display: flex;
@@ -170,14 +175,30 @@
     top: 2px;
     right: 0;
   }
+  .iconDialog-tabs-wrap {
+    margin-top: 1rem;
+    + .iconDialog-images-wrap {
+      margin-top: 1rem;
+    }
+    .iconDialog-tips {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--color-primary);
+      margin-left: 1rem;
+    }
+  }
   .iconDialog-images-wrap {
     min-height: 230px;
+    padding: 0 10px;
     margin-top: 2rem;
+    .iconDialog-image {
+      width: 100%;
+    }
   }
   .iconDialog-download-wrap {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin: 2rem auto 1rem;
   }
   .iconDialog-download-btn {
     width: 240px;

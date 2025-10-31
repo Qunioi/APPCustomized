@@ -1,7 +1,7 @@
 .product-wrap {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(12px, 2.5vw, 3vw);
+  gap: clamp(10px, 1vw, 2vw);
   // gap: 2cqw;
   width: 100%;
   max-width: var(--max-width);
@@ -9,6 +9,7 @@
   margin: 0 auto;
   .product-item {
     overflow: hidden;
+    max-width: 360px;
     background-color: #fff;
     border-radius: 1rem;
     padding: 1rem;

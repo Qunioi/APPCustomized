@@ -11,8 +11,12 @@
           <transition name="fade">
             <div v-if="activeProductIndex === index" class="product-item--hover">
               <div class="product-item-qrcode">
-                <!-- 改用 selectedTheme[product.id] -->
-                <img :src="`/image/products/${product.number}/qrcode_${selectedTheme[product.id]}.jpg`" :alt="product.title">
+                <img
+                  :src="`/image/products/${product.number}/qrcode_${selectedTheme[product.id]}.jpg`" 
+                  :alt="product.title"
+                  @click="openSlidesWindow(product)"
+                  style="cursor: pointer;"
+                >
               </div>
               <p class="product-item-text">请扫描二维码预览模板<br>For iOS & Android</p>
               <div class="product-item-btn-group">
@@ -163,17 +167,46 @@ import templateList from '@/data/templateList.json'
 const router = useRouter()
 const activeProductIndex = ref<number | null>(null)
 const products = ref(templateList.products)
-const selectedTheme = reactive<Record<number, 'dark' | 'light'>>(
-  Object.fromEntries(
-    templateList.products.map(product => [product.id, product.defaultTheme as 'dark' | 'light'])
-  )
-)
 
 const selectTemplate = (number: string, theme: 'dark' | 'light', type: 'color' | 'custom') => {
   router.push({
     path: `/${number}/${theme}`,
     query: { type }
   })
+}
+
+const selectedTheme = ref<Record<number, 'light' | 'dark'>>({})
+templateList.products.forEach(product => {
+  selectedTheme.value[product.id] = product.defaultTheme || 'light'
+})
+
+// 開啟 Slides 新視窗 (加入錯誤處理)
+const openSlidesWindow = (product: any) => {
+  console.log('🔍 點擊產品:', product)
+
+  const theme = selectedTheme.value[product.id]
+  console.log('🎨 選擇主題:', theme)
+  try {
+    const route = router.resolve({
+      name: 'product-slides',
+      params: {
+        number: product.number,
+        theme: theme
+      }
+    })
+    console.log('🔗 解析路由:', route)
+    console.log('📍 URL:', route.href)
+    // 開啟新分頁
+    const newWindow = window.open(route.href, '_blank')
+    if (!newWindow) {
+      console.error('❌ 瀏覽器阻擋彈出視窗')
+      alert('請允許彈出視窗,或檢查瀏覽器設定')
+    } else {
+      console.log('✅ 成功開啟新視窗')
+    }
+  } catch (error) {
+    console.error('❌ 開啟視窗錯誤:', error)
+  }
 }
 
 const process = ref([

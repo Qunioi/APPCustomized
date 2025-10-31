@@ -13,9 +13,7 @@
       <div class="page-content">
         <div class="icon-wrap">
           <div class="icon-item" v-for="(icon) in iconList.icons" :key="icon.id">
-            <div class="icon-item-img">
-              <img src="" alt="">
-            </div>
+            <div class="icon-item-img" :style="`background-image: url(/image/products/${icon.number}-preview.jpg);`"></div>
             <div class="icon-item-info">
               <div class="icon-item-infor">
                 <h3 class="icon-item-title">{{ icon.title }}</h3>

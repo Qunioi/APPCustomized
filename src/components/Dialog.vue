@@ -1,6 +1,6 @@
 <template>
   <Transition name="dialog-fade">
-    <dialog class="dialog-wrap dialog-feedback"
+    <dialog class="dialog-wrap"
       v-if="isOpen"
       ref="dialogRef"
       @click.self="closeDialog"
@@ -119,14 +119,21 @@
           </button>
         </div>
         <div class="iconDialog-content">
+          <div v-if="showThemeSwitch" class="iconDialog-tabs-wrap">
+            <button
+              :class="['product-item-theme-btn', { active: currentTheme === 'dark' }]"
+              @click="switchTheme('dark')">
+              深色版
+            </button>
+            <button
+              :class="['product-item-theme-btn', { active: currentTheme === 'light' }]"
+              @click="switchTheme('light')">
+              浅色版
+            </button>
+            <div class="iconDialog-tips">※ 提醒您，選擇不同的深淺版本會對應不同的ICON配置。</div>
+          </div>
           <div class="iconDialog-images-wrap">
-            <img
-              v-for="(image, index) in iconData?.images"
-              :key="index"
-              :src="image"
-              :alt="`${iconData?.title} - ${index + 1}`"
-              class="iconDialog-image"
-            />
+            <img :src="currentImagePath" :alt="iconData?.number" class="iconDialog-image">
           </div>
           <div class="iconDialog-download-wrap">
             <button class="iconDialog-download-btn">ICON图包下载</button>
@@ -138,7 +145,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue' // 加入這行 import
+import { ref, nextTick, computed } from 'vue' // 加入 computed
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwMzUckTYVrcIL_QALK3Br0fUAqpI6UJh_de5xS3mMmi-Fz06KfaG-LOFJdReIRBqlzyw/exec'
 
@@ -146,6 +153,7 @@ const dialogRef = ref<HTMLDialogElement>()
 const isOpen = ref(false)
 const dialogType = ref<'feedback' | 'icon'>('feedback')
 const iconData = ref<any>(null)
+const currentTheme = ref<'light' | 'dark'>('light')
 
 const formData = ref({
   name: '',
@@ -161,6 +169,31 @@ const showSuccess = ref(false)
 const showError = ref(false)
 const errorMessage = ref('提交失败，请稍后再试')
 
+// 判斷是否顯示主題切換按鈕
+const showThemeSwitch = computed(() => {
+  return iconData.value?.defaultTheme && iconData.value.defaultTheme !== 'none'
+})
+
+// 計算當前圖片路徑
+const currentImagePath = computed(() => {
+  if (!iconData.value) return ''
+  
+  const { number, defaultTheme } = iconData.value
+  
+  // 如果沒有主題或主題為 none,使用原始圖片
+  if (!defaultTheme || defaultTheme === 'none') {
+    return `/image/products/${number}-fullview.jpg`
+  }
+  
+  // 有主題時,根據當前選擇的主題顯示對應圖片
+  return `/image/products/${number}-fullview-${currentTheme.value}.jpg`
+})
+
+// 切換主題
+const switchTheme = (theme: 'light' | 'dark') => {
+  currentTheme.value = theme
+}
+
 // 開啟 Feedback Dialog
 const openFeedbackDialog = () => {
   dialogType.value = 'feedback'
@@ -174,6 +207,12 @@ const openFeedbackDialog = () => {
 const openIconDialog = (data: any) => {
   dialogType.value = 'icon'
   iconData.value = data
+  
+  // 設定預設主題
+  if (data.defaultTheme && data.defaultTheme !== 'none') {
+    currentTheme.value = data.defaultTheme
+  }
+  
   isOpen.value = true
   nextTick(() => {
     dialogRef.value?.showModal()
@@ -186,6 +225,7 @@ const closeDialog = () => {
   // 清空資料
   setTimeout(() => {
     iconData.value = null
+    currentTheme.value = 'light' // 重置主題
     formData.value = {
       name: '',
       unicode: '',
