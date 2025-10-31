@@ -1,26 +1,28 @@
 <template>
   <Dialog ref="dialogRef" />
-  <Header />
+  <Header v-if="showInfo" />
   <main>
     <router-view />
   </main>
-  <Footer />
+  <Footer v-if="showInfo" />
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from 'vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import Dialog from './components/Dialog.vue'
-
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const dialogRef = ref()
 
-// 提供開啟 Feedback 的方法
+const showInfo = computed(() => {
+  return route.meta.showInfo !== false
+})
+
 const openFeedback = () => {
   dialogRef.value?.openFeedbackDialog()
 }
 
-// 提供開啟 Icon 的方法
 const openIconDialog = (data: any) => {
   dialogRef.value?.openIconDialog(data)
 }

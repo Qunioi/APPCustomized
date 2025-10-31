@@ -13,7 +13,7 @@ body {
     background-image: url('/image/decor-gradient-points.svg');
     background-size: cover;
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     z-index: -1;
   }
   &::before {
@@ -26,6 +26,12 @@ body {
   }
   @media screen and (max-width: 990px) {
     overflow-x: auto;
+  }
+}
+.page-slides {
+  background-color: #000;
+  &:after, &:before {
+    display: none;
   }
 }
 

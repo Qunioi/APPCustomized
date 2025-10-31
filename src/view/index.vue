@@ -15,7 +15,6 @@
                   :src="`/image/products/${product.number}/qrcode_${selectedTheme[product.id]}.jpg`" 
                   :alt="product.title"
                   @click="openSlidesWindow(product)"
-                  style="cursor: pointer;"
                 >
               </div>
               <p class="product-item-text">请扫描二维码预览模板<br>For iOS & Android</p>
