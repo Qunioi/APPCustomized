@@ -24,7 +24,7 @@
             <ul class="faq-list">
               <li>
                 <div class="faq-title">Q1：申请改色，需要先准备哪些资料？</div>
-                <div class="faq-content">A：建议您先参考<FaqTooltip title="《改色规范文件》" image-src="/image/faq01.jpg" tips="选择版型 > 选择改色" />，确认希望调整的区域与色系，并<span class="text-red">提供设计稿或色码资料</span>。若您有文件外其他想微调的 UI 项目请事先提出，我们的专案窗口将协助评估可行性，并给予最合适的建议。</div>
+                <div class="faq-content">A：建议您先参考<FaqTooltip title="《改色规范文件》" image-src="faq01.jpg" tips="选择版型 > 选择改色" />，确认希望调整的区域与色系，并<span class="text-red">提供设计稿或色码资料</span>。若您有文件外其他想微调的 UI 项目请事先提出，我们的专案窗口将协助评估可行性，并给予最合适的建议。</div>
               </li>
               <li>
                 <div class="faq-title">Q2：改色需求的作业时程大约多久？</div>
@@ -44,7 +44,7 @@
             <ul class="faq-list">
               <li>
                 <div class="faq-title">Q1：进行客制化需要提供哪些资料？</div>
-                <div class="faq-content">A：客制化主要集中于 <span class="text-red">首页设计与颜色调整</span>，您可参考<FaqTooltip title="《改色规范文件》" image-src="/image/faq01.jpg" tips="选择版型 > 选择改色" />与<FaqTooltip title="《客制化规范文件》" image-src="/image/faq02.jpg" tips="选择版型 > 选择客制化" />，以了解目前可支援的方向。若有更进阶的视觉或功能需求，也欢迎提出，我们会协助评估可行性与最佳执行方式。</div>
+                <div class="faq-content">A：客制化主要集中于 <span class="text-red">首页设计与颜色调整</span>，您可参考<FaqTooltip title="《改色规范文件》" image-src="faq01.jpg" tips="选择版型 > 选择改色" />与<FaqTooltip title="《客制化规范文件》" image-src="faq02.jpg" tips="选择版型 > 选择客制化" />，以了解目前可支援的方向。若有更进阶的视觉或功能需求，也欢迎提出，我们会协助评估可行性与最佳执行方式。</div>
               </li>
               <li>
                 <div class="faq-title">Q2：客制化需求的作业时程为多久？</div>

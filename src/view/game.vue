@@ -4,7 +4,15 @@
       <div class="page-header">
         <div class="page-header-top">
           <h2 class="page-header-title">游戏介接清单</h2>
-          <button class="page-header-download-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM14 9H19L12 16L5 9H10V3H14V9Z" fill="currentColor"/></svg>入口图ID表单下载</button>
+          <a 
+            :href="fileUrl" 
+            download="入口图ID表单.zip"
+            class="page-header-download-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM14 9H19L12 16L5 9H10V3H14V9Z" fill="currentColor"/>
+            </svg>
+            入口图ID表单下载
+          </a>
         </div>
         <div class="page-header-bottom">
           <div class="page-header-tips">平台入口图档案名称请依照 ID 号码命名，并依照类别分资料夹存放</div>
@@ -46,6 +54,11 @@
 
 <script setup lang="ts">
 import gameListData from '@/data/gameList.json'
+import { useAssets } from '@/composables/useAssets'
+
+// 加入檔案路徑處理
+const { getFilePath } = useAssets()
+const fileUrl = getFilePath('game_list.zip')
 
 // 提取遊戲分類（排除 updateTime）
 const gameCategories = computed(() => {

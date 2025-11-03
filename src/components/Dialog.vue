@@ -27,8 +27,12 @@
                 v-model="formData.name"
                 type="text"
                 class="feedback-form-input"
+                :class="{ 'error': validationErrors.name }"
+                @input="validateName"
+                maxlength="20"
                 required
               />
+              <div v-if="validationErrors.name" class="error-message">{{ validationErrors.name }}</div>
             </div>
             <div class="feedback-form-group">
               <label for="unicode" class="feedback-form-label">网站后置码 *</label>
@@ -39,9 +43,14 @@
                   v-model="formData.unicode"
                   type="text"
                   class="feedback-form-input"
+                  :class="{ 'error': validationErrors.unicode }"
+                  @input="validateUnicode"
+                  maxlength="20"
+                  placeholder="例如：bb"
                   required
                 />
               </div>
+              <div v-if="validationErrors.unicode" class="error-message">{{ validationErrors.unicode }}</div>
             </div>
             <div class="feedback-form-group">
               <label for="message" class="feedback-form-label">问题内容 *</label>
@@ -49,9 +58,14 @@
                 id="message"
                 v-model="formData.message"
                 class="feedback-form-textarea"
+                :class="{ 'error': validationErrors.message }"
+                @input="validateMessage"
                 rows="5"
+                maxlength="500"
                 required
               ></textarea>
+              <div class="char-count">{{ formData.message.length }}/500</div>
+              <div v-if="validationErrors.message" class="error-message">{{ validationErrors.message }}</div>
             </div>
             <div class="feedback-form-group">
               <div class="feedback-upload-group">
@@ -83,7 +97,7 @@
               <button
                 type="submit"
                 class="feedback-form-submit"
-                :disabled="isSubmitting">
+                :disabled="isSubmitting || !formData.name.trim() || !formData.unicode.trim() || !formData.message.trim() || Object.keys(validationErrors).length > 0">
                 {{ isSubmitting ? '送出中...' : '送出' }}
               </button>
             </div>
@@ -170,6 +184,153 @@ const isSubmitting = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
 const errorMessage = ref('提交失败，请稍后再试')
+const validationErrors = ref<{[key: string]: string}>({})
+
+// 驗證規則
+const validateForm = () => {
+  const errors: {[key: string]: string} = {}
+  
+  // 姓名驗證
+  if (!formData.value.name.trim()) {
+    errors.name = '請輸入姓名'
+  } else if (formData.value.name.length < 2) {
+    errors.name = '姓名至少需要2個字符'
+  } else if (formData.value.name.length > 20) {
+    errors.name = '姓名不能超過20個字符'
+  }
+  
+  // 後置碼驗證 - 只能是英文和數字
+  if (!formData.value.unicode.trim()) {
+    errors.unicode = '請輸入網站後置碼'
+  } else if (formData.value.unicode.length < 2) {
+    errors.unicode = '後置碼至少需要2個字符'
+  } else if (formData.value.unicode.length > 10) {
+    errors.unicode = '後置碼不能超過10個字符'
+  } else if (!/^[a-zA-Z0-9]+$/.test(formData.value.unicode)) {
+    errors.unicode = '後置碼只能包含英文字母和數字'
+  }
+  
+  // 問題內容驗證
+  if (!formData.value.message.trim()) {
+    errors.message = '請輸入問題內容'
+  } else if (formData.value.message.length < 10) {
+    errors.message = '問題內容至少需要10個字符'
+  } else if (formData.value.message.length > 500) {
+    errors.message = '問題內容不能超過500個字符'
+  }
+  
+  validationErrors.value = errors
+  return Object.keys(errors).length === 0
+}
+
+// 即時驗證後置碼
+const validateUnicode = () => {
+  const errors = { ...validationErrors.value }
+  
+  if (formData.value.unicode) {
+    // 移除非英文數字字符
+    const cleanValue = formData.value.unicode.replace(/[^a-zA-Z0-9]/g, '')
+    if (cleanValue !== formData.value.unicode) {
+      formData.value.unicode = cleanValue
+    }
+    
+    if (formData.value.unicode.length > 10) {
+      errors.unicode = '後置碼不能超過10個字符'
+    } else if (formData.value.unicode.length > 0 && formData.value.unicode.length < 2) {
+      errors.unicode = '後置碼至少需要2個字符'
+    } else {
+      delete errors.unicode
+    }
+  } else {
+    delete errors.unicode
+  }
+  
+  validationErrors.value = errors
+}
+
+// 即時驗證姓名
+const validateName = () => {
+  const errors = { ...validationErrors.value }
+  
+  if (formData.value.name.length > 20) {
+    errors.name = '姓名不能超過20個字符'
+  } else {
+    delete errors.name
+  }
+  
+  validationErrors.value = errors
+}
+
+// 即時驗證訊息
+const validateMessage = () => {
+  const errors = { ...validationErrors.value }
+  
+  if (formData.value.message.length > 500) {
+    errors.message = '問題內容不能超過500個字符'
+  } else {
+    delete errors.message
+  }
+  
+  validationErrors.value = errors
+}
+
+// 提交處理 - 只保留一個
+const handleSubmit = async () => {
+  if (!validateForm()) {
+    errorMessage.value = '請檢查並修正表單錯誤'
+    showError.value = true
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
+    return
+  }
+
+  isSubmitting.value = true
+  showSuccess.value = false
+  showError.value = false
+
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: formData.value.name.trim(),
+        unicode: '@' + formData.value.unicode.trim(),
+        message: formData.value.message.trim(),
+        image: imageBase64.value
+      })
+    })
+
+    showSuccess.value = true
+    
+    // 清空表單和驗證錯誤
+    formData.value = {
+      name: '',
+      unicode: '',
+      message: ''
+    }
+    validationErrors.value = {}
+    removeImage()
+
+    setTimeout(() => {
+      showSuccess.value = false
+      closeDialog()
+    }, 3000)
+
+  } catch (error) {
+    console.error('❌ 提交失败:', error)
+    errorMessage.value = '提交失败，请稍后再试'
+    showError.value = true
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
+  } finally {
+    isSubmitting.value = false
+  }
+}
 
 // 判断是否显示主题切换按钮
 const showThemeSwitch = computed(() => {
@@ -233,6 +394,7 @@ const closeDialog = () => {
       unicode: '',
       message: ''
     }
+    validationErrors.value = {}
     removeImage()
   }, 300)
 }
@@ -290,53 +452,6 @@ const removeImage = () => {
   imageBase64.value = ''
   if (fileInput.value) {
     fileInput.value.value = ''
-  }
-}
-
-const handleSubmit = async () => {
-  isSubmitting.value = true
-  showSuccess.value = false
-  showError.value = false
-
-  try {
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formData.value.name,
-        unicode: '@' + formData.value.unicode,
-        message: formData.value.message,
-        image: imageBase64.value
-      })
-    })
-
-    showSuccess.value = true
-
-    formData.value = {
-      name: '',
-      unicode: '',
-      message: ''
-    }
-    removeImage()
-
-    setTimeout(() => {
-      showSuccess.value = false
-      closeDialog()
-    }, 3000)
-
-  } catch (error) {
-    console.error('❌ 提交失败:', error)
-    errorMessage.value = '提交失败，请稍后再试'
-    showError.value = true
-
-    setTimeout(() => {
-      showError.value = false
-    }, 3000)
-  } finally {
-    isSubmitting.value = false
   }
 }
 
