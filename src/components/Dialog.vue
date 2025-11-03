@@ -9,7 +9,7 @@
       <!-- Feedback 内容 -->
       <div v-if="dialogType === 'feedback'" class="feedback-wrap" @animationend="onAnimationEnd">
         <div class="feedback-header">
-          <div class="feedback-header-title">问题提问</div>
+          <div class="feedback-header-title">问题回馈</div>
           <div class="feedback-header-description">若您对APP客制化流程有任何问题或建议，<br>欢迎填写表单回馈，我们将派专人与您联系。</div>
           <button class="feedback-close-btn" @click="closeDialog">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.61763 9.00002L0 1.3824L1.3824 0L9.00002 7.61754L16.6176 0L18 1.3824L10.3824 9.00002L18 16.6175L16.6176 18L9.00002 10.3824L1.3824 18L0 16.6175L7.61763 9.00002Z" fill="black"/></svg>
