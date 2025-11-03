@@ -2,29 +2,29 @@
   "icons": [
     {
       "id": 1,
-      "number": "ICON21081101",
-      "title": "ICON21081101",
+      "number": "ICON007",
+      "title": "ICON007",
       "date": "2021-08-11",
       "defaultTheme": "none"
     },
     {
       "id": 2,
-      "number": "ICON21091501",
-      "title": "ICON21091501",
+      "number": "ICON008",
+      "title": "ICON008",
       "date": "2021-09-15",
       "defaultTheme": "none"
     },
     {
       "id": 3,
-      "number": "ICON23061401",
-      "title": "ICON23061401",
+      "number": "ICON010",
+      "title": "ICON010",
       "date": "2023-06-14",
       "defaultTheme": "light"
     },
     {
       "id": 4,
-      "number": "ICON24092601",
-      "title": "ICON24092601",
+      "number": "ICON011",
+      "title": "ICON011",
       "date": "2024-09-26",
       "defaultTheme": "none"
     }

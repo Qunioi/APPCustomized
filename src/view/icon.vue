@@ -7,12 +7,12 @@
         </div>
         <div class="page-header-bottom">
           <div class="page-header-tips">ICON图档案名称请依照ICON图包尺寸以及命名提供</div>
-          <div class="page-header-date">表单更新时间：2025/07/08</div>
+          <div class="page-header-date">表单更新时间：2025/10/31</div>
         </div>
       </div>
       <div class="page-content">
         <div class="icon-wrap">
-          <div class="icon-item" v-for="(icon) in iconList.icons" :key="icon.id">
+          <div class="icon-item" @click="handleViewIcon(icon)" v-for="(icon) in iconList.icons" :key="icon.id">
             <div class="icon-item-img" :style="`background-image: url(${$getImagePath(`template/${icon.number}-preview.jpg`)});`"></div>
             <div class="icon-item-info">
               <div class="icon-item-infor">

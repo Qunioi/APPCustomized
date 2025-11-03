@@ -5,9 +5,11 @@
         v-for="(product, index) in products"
         :key="product.id"
         class="product-item"
-        @mouseenter="activeProductIndex = index"
-        @mouseleave="activeProductIndex = null">
-        <div class="product-item-img-wrap">
+        >
+        <div class="product-item-img-wrap"
+          @mouseenter="activeProductIndex = index"
+          @mouseleave="activeProductIndex = null"
+          >
           <transition name="fade">
             <div v-if="activeProductIndex === index" class="product-item--hover">
               <div class="product-item-qrcode">
@@ -19,7 +21,7 @@
               </div>
               <p class="product-item-text">请扫描二维码预览模板<br>For iOS & Android</p>
               <div class="product-item-btn-group">
-                <button class="product-item-btn" @click="selectTemplate(product.number, selectedTheme[product.id], 'color')">选择纯换色</button>
+                <button class="product-item-btn" @click="selectTemplate(product.number, selectedTheme[product.id], 'color')">选择改色</button>
                 <button class="product-item-btn" @click="selectTemplate(product.number, selectedTheme[product.id], 'custom')">选择客制化</button>
               </div>
             </div>
@@ -215,19 +217,19 @@ const process = ref([
     id: 1,
     step: 1,
     title: '选择版型',
-    description: '我们目前提供 四款专业设计版型，可于网站上即时预览效果，并选择最符合您品牌形象与需求的版型，作为专案的设计基础。'
+    description: '我们目前提供四款专业设计版型，您可即时于网站预览，挑选最符合您网站品牌形象与需求的基础版型。'
   },
   {
     id: 2,
     step: 2,
     title: '客制范围',
-    description: '确认所选版型中可进行修改与延伸的范围，包含颜色、排版、功能模组等项目，并可下载相关设计档案，作为后续制作与调整的依据。'
+    description: '确认所选版型可客制化的范围，包括颜色、排版与功能模组，并可下载相关设计档案，作为后续制作与调整依据。'
   },
   {
     id: 3,
     step: 3,
     title: '完成制作',
-    description: '依据所选版型及客制化范围，准备并提供必要的素材与档案。完成后提交给本公司，由专业团队进行整合与制作，并安排订制流程。'
+    description: '需依据选定版型与客制化需求，提供必要素材与档案给BBIN，后续将由专业团队协助您整合制作。'
   }
 ])
 </script>

@@ -1,5 +1,7 @@
 .product-detail-wrap {
   max-width: 1600px;
+  min-width: 1280px;
+  min-height: 100vh;
   padding: 0 1rem;
   margin: 0 auto;
   .product-detail-container {
@@ -7,15 +9,29 @@
     border-radius: 16px;
     background-color: #fff;
     overflow: hidden;
+    overflow: visible;
+    align-items: flex-start;
     .product-detail-left {
       flex: 0 0 420px;
+      align-self: flex-start;
+      height: fit-content;
       background-color: #FBFBFB;
       border-radius: 16px;
       padding: 2rem;
       container-type: inline-size;
+      transition: all 0.3s ease;
+      @media (min-height: 930px) {
+        position: sticky;
+        top: 0;
+      }
+      @media (max-height: 929px) {
+        position: relative;
+        top: auto;
+      }
     }
     .product-detail-right {
       flex: 1 1 auto;
+      min-height: 100vh;
       padding: 2rem;
     }
   }
@@ -139,6 +155,9 @@
     color: var(--color-primary);
     padding: 20px 0 10px 1rem;
     text-indent: -1rem;
+    &::before {
+      content: '▼ ';
+    }
   }
   .article-image-list {
     display: flex;
@@ -149,12 +168,20 @@
   .article-content {
     padding-left: 1rem;
     ol {
-      line-height: 1.4;
-      padding-left: 1.2em;
+      font-size: 16px;
+      list-style: none;
+      line-height: 1.6;
       margin-bottom: 1rem;
+    }
+    .article-num {
+      font-size: 1.6em;
+      line-height: 1;
+      vertical-align: bottom;
+      margin-right: 2px;
     }
   }
   .article-content-tips {
+    font-size: 18px;
     font-weight: bold;
     margin: 20px 0 0;
   }
@@ -162,4 +189,177 @@
     background-color: #FFE37D;
     padding: 0 4px;
   }
+}
+
+
+.toc-wrap {
+  max-width: 1600px;
+  padding: 0 1rem;
+  margin: 0 auto;
+  position: fixed;
+  width: 100%;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  &:hover .toc-hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-30%) translateX(0) scale(1);
+  }
+  .toc-fixed {
+    position: absolute;
+    left: 100%;
+  }
+  ul {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+  }
+  .toc-default {
+    position: absolute;
+    left: 100%;
+    li {
+      padding-bottom: 10px;
+      &.active span {
+        height: 2px;
+        background-color: var(--color-primary);
+      }
+    }
+    span {
+      display: block;
+      width: 15px;
+      height: 1px;
+      background-color: #d4d4d4;
+      border-radius: 4px;
+    }
+  }
+  .toc-hover {
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #F3F3F1;
+    width: 260px;
+    border-radius: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-30%) translateX(0) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    right: -4%;
+    li {
+      &.active a {
+        background: #F3F3F1;
+        color: #374151;
+      }
+    }
+  }
+  a {
+    display: block;
+    padding: 4px 8px;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1.4;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    &:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+  }
+  @media (max-width: 1680px) {
+    max-width: none;
+    .toc-default {
+      right: 1rem;
+      left: auto;
+    }
+    .toc-hover {
+      right: 1rem;
+    }
+  }
+}
+.toc-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #37352f;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+
+.gotop-wrap {
+  max-width: 1600px;
+  padding: 0 1rem;
+  margin: 0 auto;
+  position: fixed;
+  width: 100%;
+  bottom: 170px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  pointer-events: none;
+  .gotop-btn {
+    position: absolute;
+    left: 100%;
+    width: 50px;
+    height: 50px;
+    background: rgb(0 0 0 / 10%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    transform: translate(0) scale(1);
+    box-shadow: 0 4px 12px transparent;
+    transition: all 0.2s ease;
+    &:hover {
+      background: #B71C1C;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgb(210 40 31 / 50%);
+    }
+    &:active {
+      transform: translateY(-1px) scale(0.95);
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  @media (max-width: 1680px) {
+    max-width: none;
+    .gotop-btn {
+      right: 1.5rem;
+      left: auto;
+    }
+  }
+}
+
+// Vue Transition 動畫
+.go-top-enter-active {
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.go-top-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.go-top-enter-from {
+  opacity: 0;
+  transform: translateY(30px) scale(0.7);
+}
+
+.go-top-leave-to {
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+}
+
+.go-top-enter-to,
+.go-top-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }

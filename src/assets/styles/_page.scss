@@ -46,12 +46,14 @@
   border-radius: 16px;
   background-color: rgb(255 255 255 / 50%);
   margin-bottom: 10px;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   &[open] {
     background-color: rgb(255 255 255);
+    box-shadow: 0 12px 32px rgba(210, 40, 31, 0.2);
+    transform: translateY(0);
     .page-summary {
       font-size: 20px;
       color: var(--color-primary);
-      padding-bottom: 1rem;
       > span {
         font-size: 18px;
       }
@@ -60,36 +62,59 @@
   .page-summary {
     cursor: pointer;
     padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
     &:hover {
       background-color: rgb(255 255 255);
     }
   }
   .page-content {
     padding: 0 2rem 2rem 2rem;
+    animation: slideDown 0.5s ease-out;
+    position: relative;
+    z-index: 10;
   }
 }
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .gameList-table {
+  overflow: hidden;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  font-size: 14px;
   background-color: #FBFBFB;
   border: 1px solid #E5E5E5;
-  border-bottom: 0;
+  border-radius: 12px;
   .game-item-title {
-    background-color: #F3F3F1;
+    color: #fff;
+    background-color: #414141;
   }
   .game-item {
     display: grid;
     grid-template-columns: 1fr 2fr;
     border-bottom: 1px solid #E5E5E5;
+    border-right: 1px solid #E5E5E5;
+    &:nth-child(4n) {
+        border-right: 0;
+    }
+    &:nth-last-child(-n+4) {
+        border-bottom: 0;
+    }
     .gameItem-id,
     .gameItem-name {
-      padding: 6px;
+      padding: 10px;
     }
     .gameItem-id {
       text-align: center;
-    }
-    .gameItem-name {
-      border-right: 1px solid #E5E5E5;
     }
   }
 }
@@ -100,6 +125,7 @@
   gap: 10px;
   width: 100%;
   .icon-item {
+    cursor: pointer;
     overflow: hidden;
     background-color: #fff;
     border-radius: 1rem;
@@ -454,5 +480,78 @@
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+
+
+// FAQ 頁面樣式
+.faq-wrap {
+  .faq-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      background: #fff;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+      &:hover {
+        box-shadow: 0 4px 12px rgba(210, 40, 31, 0.1);
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .faq-title {
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid #E5E5E5;
+    padding: 1.5rem;
+    margin: 0;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--color-primary);
+      border-radius: 0 2px 2px 0;
+    }
+  }
+
+  .faq-content {
+    padding: 1.5rem;
+    line-height: 1.6;
+    color: #555;
+    font-size: 15px;
+    border: 1px solid #E5E5E5;
+    border-radius: 0 0 12px 12px;
+    border-top: 0;
+
+    .text-blue {
+      color: #2372FC;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .text-red {
+      color: #fff;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #B71C1C 100%);
+      border-radius: 6px;
+      padding: 2px 4px 3px;
+      margin: 0 2px;
+    }
   }
 }

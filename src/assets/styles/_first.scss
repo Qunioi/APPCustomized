@@ -51,9 +51,29 @@
     top: 0;
     left: 0;
     .product-item-qrcode {
+      cursor: pointer;
       border: 1px solid #EFEFEF;
       border-radius: 10px;
       padding: 1rem;
+      position: relative;
+      &:after {
+        content: '';
+        display: block;
+        width: 26px;
+        height: 27px;
+        background-image: url('/image/fingers.webp');
+        background-size: contain;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      &:hover {
+        border-color: var(--color-primary);
+      }
+      img {
+        width: 150px;
+        height: 150px;
+      }
     }
     .product-item-text {
       line-height: 1.4;
@@ -82,15 +102,14 @@
   display: inline-block;
   font-size: 13px;
   border-radius: 20px;
-  background-color: #fff;
-  border: 1px solid #EFEFEF;
+  background-color: #ebebeb;
   padding: 4px 10px;
   + .product-item-theme-btn {
     margin-left: 6px;
   }
   &.active {
-    background-color: #FFF1F1;
-    border-color: #F6DADA;
+    color: #fff;
+    background-color: var(--color-primary);
   }
 }
 

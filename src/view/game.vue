@@ -8,26 +8,33 @@
         </div>
         <div class="page-header-bottom">
           <div class="page-header-tips">平台入口图档案名称请依照 ID 号码命名，并依照类别分资料夹存放</div>
-          <div class="page-header-date">表单更新时间：2025/07/08</div>
+          <div class="page-header-date">表单更新时间：{{ formattedUpdateTime }}</div>
         </div>
       </div>
       <div class="page-content">
         <details
-          v-for="(category, key) in gameList"
+          v-for="(category, key) in gameCategories"
           :key="key"
           class="page-details">
           <summary class="page-summary">
             {{ category.name }} <span>({{ category.platforms.length }})</span>
           </summary>
           <div class="page-content">
-            <div class="gameList-table">
-              <div class="game-item game-item-title" v-for="n in 4">
+            <div
+              class="gameList-table"
+              :style="{ gridTemplateColumns: `repeat(${getColumnsCount(category.platforms.length)}, 1fr)` }">
+              <!-- 標題數量根據平台數量調整 -->
+              <div
+                class="game-item game-item-title"
+                v-for="n in getColumnsCount(category.platforms.length)"
+                :key="`title-${n}`">
                 <div class="gameItem-id">ID</div>
                 <div class="gameItem-name">平台名称</div>
               </div>
-              <div class="game-item" v-for="platform in category.platforms" :key="platform.id">
-                <div class="gameItem-id">{{ platform.id }}</div>
-                <div class="gameItem-name">{{ platform.name }}</div>
+              <!-- 使用補齊後的平台列表 -->
+              <div class="game-item" v-for="(platform, index) in getPaddedPlatforms(category.platforms)" :key="`platform-${index}`">
+                <div class="gameItem-id">{{ platform?.id || '' }}</div>
+                <div class="gameItem-name">{{ platform?.name || '' }}</div>
               </div>
             </div>
           </div>
@@ -38,5 +45,47 @@
 </template>
 
 <script setup lang="ts">
-import gameList from '@/data/gameList.json'
+import gameListData from '@/data/gameList.json'
+
+// 提取遊戲分類（排除 updateTime）
+const gameCategories = computed(() => {
+  const { updateTime, ...categories } = gameListData
+  return categories
+})
+
+// 格式化更新時間
+const formattedUpdateTime = computed(() => {
+  const date = new Date(gameListData.updateTime)
+  return date.toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).replace(/\//g, '/')
+})
+
+// 根據平台數量決定列數
+const getColumnsCount = (platformCount: number) => {
+  return Math.min(platformCount, 4)
+}
+
+// 補齊平台列表到 4 的倍數 (僅當數量 >= 4 時)
+const getPaddedPlatforms = (platforms: any[]) => {
+  // 如果數量少於 4，直接返回原陣列
+  if (platforms.length < 4) {
+    return platforms
+  }
+  
+  const remainder = platforms.length % 4
+  if (remainder === 0) return platforms
+  
+  const paddingCount = 4 - remainder
+  const paddedArray = [...platforms]
+  
+  // 補齊空項目
+  for (let i = 0; i < paddingCount; i++) {
+    paddedArray.push(null)
+  }
+  
+  return paddedArray
+}
 </script>
