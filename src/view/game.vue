@@ -58,7 +58,7 @@ import { useAssets } from '@/composables/useAssets'
 
 // 加入檔案路徑處理
 const { getFilePath } = useAssets()
-const fileUrl = getFilePath('game_list.zip')
+const fileUrl = getFilePath('gamelist.zip')
 
 // 提取遊戲分類（排除 updateTime）
 const gameCategories = computed(() => {

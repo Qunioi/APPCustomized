@@ -111,9 +111,12 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import templateList from '@/data/templateList.json'
+import { useResources } from '@/composables/useResources'
 
 const route = useRoute()
 const router = useRouter()
+const { handleResource, openGameList, openIconList } = useResources()
+
 
 // 從路由參數獲取產品編號和主題
 const productNumber = computed(() => route.params.number as string)
@@ -225,25 +228,6 @@ const switchType = (type: 'color' | 'custom') => {
   })
 }
 
-// 開啟遊戲列表新視窗
-const openGameList = () => {
-  try {
-    const env = import.meta.env
-    const fileName = env.VITE_FILE_NAME || 'appCustomized'
-    let gameUrl = '#/game'
-    if (env.MODE === 'production') {
-      gameUrl = `/${fileName}/#/game`
-    }
-    const newWindow = window.open(gameUrl, '_blank')
-    if (!newWindow) {
-      console.error('❌ 瀏覽器阻擋彈出視窗')
-      alert('請允許彈出視窗,或檢查瀏覽器設定')
-    }
-  } catch (error) {
-    console.error('❌ 開啟視窗錯誤:', error)
-  }
-}
-
 const handleStickyScroll = () => {
   // 只有在螢幕高度支援時才檢測 sticky 狀態
   if (!isScreenHeightSupported.value) {
@@ -316,7 +300,10 @@ watch(() => route.query.type, (newType) => {
   }
 })
 
+
 // 提供給子組件使用的方法
 provide('switchType', switchType)
 provide('openGameList', openGameList)
+provide('openIconList', openIconList)
+provide('handleResource', handleResource)
 </script>

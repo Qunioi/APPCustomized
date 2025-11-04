@@ -46,7 +46,6 @@
                   :class="{ 'error': validationErrors.unicode }"
                   @input="validateUnicode"
                   maxlength="20"
-                  placeholder="例如：bb"
                   required
                 />
               </div>

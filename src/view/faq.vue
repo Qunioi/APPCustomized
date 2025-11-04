@@ -24,7 +24,7 @@
             <ul class="faq-list">
               <li>
                 <div class="faq-title">Q1：申请改色，需要先准备哪些资料？</div>
-                <div class="faq-content">A：建议您先参考<FaqTooltip title="《改色规范文件》" image-src="faq01.jpg" tips="选择版型 > 选择改色" />，确认希望调整的区域与色系，并<span class="text-red">提供设计稿或色码资料</span>。若您有文件外其他想微调的 UI 项目请事先提出，我们的专案窗口将协助评估可行性，并给予最合适的建议。</div>
+                <div class="faq-content">A：建议您先参考<FaqTooltip title="《改色规范文件》" image-src="faq01.jpg" tips="版型选择 > 选择改色" />，确认希望调整的区域与色系，并<span class="text-red">提供设计稿或色码资料</span>。若您有文件外其他想微调的 UI 项目请事先提出，我们的专案窗口将协助评估可行性，并给予最合适的建议。</div>
               </li>
               <li>
                 <div class="faq-title">Q2：改色需求的作业时程大约多久？</div>
@@ -44,19 +44,15 @@
             <ul class="faq-list">
               <li>
                 <div class="faq-title">Q1：进行客制化需要提供哪些资料？</div>
-                <div class="faq-content">A：客制化主要集中于 <span class="text-red">首页设计与颜色调整</span>，您可参考<FaqTooltip title="《改色规范文件》" image-src="faq01.jpg" tips="选择版型 > 选择改色" />与<FaqTooltip title="《客制化规范文件》" image-src="faq02.jpg" tips="选择版型 > 选择客制化" />，以了解目前可支援的方向。若有更进阶的视觉或功能需求，也欢迎提出，我们会协助评估可行性与最佳执行方式。</div>
+                <div class="faq-content">A：客制化主要集中于 <span class="text-red">首页设计与颜色调整</span>，您可参考<FaqTooltip title="《改色规范文件》" image-src="faq01.jpg" tips="版型选择 > 选择改色" />与<FaqTooltip title="《客制化规范文件》" image-src="faq02.jpg" tips="版型选择 > 选择客制化" />，以了解目前可支援的方向。若有更进阶的视觉或功能需求，也欢迎提出，我们会协助评估可行性与最佳执行方式。</div>
               </li>
               <li>
                 <div class="faq-title">Q2：客制化需求的作业时程为多久？</div>
                 <div class="faq-content">A：时程将依内容复杂度、系统模组化程度与同时间需求量调整。<br>在确认完整需求后，平均约需 XX 个工作天 完成。<br>正式时程将于评估需求后提供，并全程由专案窗口陪伴您推动进度。</div>
               </li>
               <li>
-                <div class="faq-title">目前提供四款版型，是否可以做更多延伸？</div>
-                <div class="faq-content">A：若您的设计方向与现有四款版型差异较大，我们建议您先汇整想法，并与专案窗口讨论可行性。若评估可行，您再投入设计资源完成详细需求，BBIN将依约定方向协助完成客制化。</div>
-              </li>
-              <li>
-                <div class="faq-title">目前提供四款版型，是否可以做更多延伸？</div>
-                <div class="faq-content">A：提醒您：<span class="text-red">超出既有框架的客制化，通常需要较长制作期</span>；确认执行细节与提供需求内容后，BBIN会提供排程资讯给您。</div>
+                <div class="faq-title">Q3：目前提供四款版型，是否可以做更多延伸？</div>
+                <div class="faq-content">A：若您的设计方向与现有四款版型差异较大，我们建议您先汇整想法，并与专案窗口讨论可行性。若评估可行，您再投入设计资源完成详细需求，BBIN将依约定方向协助完成客制化。<br><br>提醒您：<span class="text-red">超出既有框架的客制化，通常需要较长制作期</span>；确认执行细节与提供需求内容后，BBIN会提供排程资讯给您。</div>
               </li>
             </ul>
           </div>
@@ -77,6 +73,14 @@
               <li>
                 <div class="faq-title">Q2：是否可以先预览模板？</div>
                 <div class="faq-content">A：可以的！在首页选择模板时，滑鼠移至模板上方即可显示预览用的 QR Code。您可以点击进入浏览，或使用手机扫描 QR Code，即可于行动装置上预览实际效果。</div>
+              </li>
+              <li>
+                <div class="faq-title">Q3:：完成后是否还能再调整内容？</div>
+                <div class="faq-content">A：为确保交付品质，我们的专案在完成后即进入最终封版；因此一般情况下无法再做内容更动。建议您于交付前务必仔细确认文字、图片与设定，如需我们协助一次性校对，我们也很乐意配合。</div>
+              </li>
+              <li>
+                <div class="faq-title">Q4：是否后续只能付费来新增版型？</div>
+                <div class="faq-content">A：BBIN仍会持续开发新的公版版型，并于完成后开放至您的网站后台提供选择；如有明确资讯专员都会通知各位伙伴。</div>
               </li>
             </ul>
           </div>

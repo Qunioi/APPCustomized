@@ -85,9 +85,10 @@
       <div class="article-title">首页皆可客制</div>
       <div class="article-content">
         <ol>
-          <li><span class="article-num">❶</span>轮播图尺寸固定(640x225)</li>
-          <li><span class="article-num">❷</span>厂商游戏图不可客制</li>
-          <li><span class="article-num">❸</span>平台入口图需提供全部档案(<a href="#" @click.prevent="openGameList">请参照列表</a>)</li>
+          <li><span class="article-num">❶</span>轮播图尺寸固定 (640x225)</li>
+          <li><span class="article-num">❷</span>ICON变更样式需提供编辑档 (<a href="#" @click.prevent="handleResource('icon')">请参照范本</a>)</li>
+          <li><span class="article-num">❸</span>厂商游戏图不可客制</li>
+          <li><span class="article-num">❹</span>平台入口图需提供全部档案 (<a href="#" @click.prevent="handleResource('game')">请参照列表</a>)</li>
         </ol>
       </div>
       <ul class="article-image-list">
@@ -126,21 +127,14 @@ const getImagePath = (filename: string) => {
   return $getImagePath(`template/${props.productNumber}/${props.theme}/${filename}`)
 }
 
-// 從父組件注入的方法
+// 從父組件注入
 const switchType = inject<(type: 'color' | 'custom') => void>('switchType')
-const openGameList = inject<() => void>('openGameList')
+const handleResource = inject<(type: 'gameList' | 'iconList') => void>('handleResource')
 
 // 處理切換到改色規範
 const handleSwitchToColor = () => {
   if (switchType) {
     switchType('color')
-  }
-}
-
-// 處理開啟遊戲列表
-const handleOpenGameList = () => {
-  if (openGameList) {
-    openGameList()
   }
 }
 </script>

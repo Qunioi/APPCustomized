@@ -73,9 +73,7 @@
     </div>
     <div class="header-feedback">
       <button class="header-feedback-btn" @click="handleOpenFeedback">
-        <svg class="header-feedback-icon" width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 5.99374C0 2.68349 2.67654 0 6.00066 0H13.9993C17.3134 0 20 2.69478 20 5.99374V18H6.00066C2.68659 18 0 15.3052 0 12.0063V5.99374ZM18 16V5.99374C18 3.79539 16.2049 2 13.9993 2H6.00066C3.78458 2 2 3.78458 2 5.99374V12.0063C2 14.2046 3.79512 16 6.00066 16H18ZM12 8H14V10H12V8ZM6 8H8V10H6V8Z" fill="white"/>
-        </svg>
+        <svg class="header-feedback-icon" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 24 24" fill="#fff"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"></path></svg>
       </button>
       <transition name="fade">
         <span class="header-feedback-tips">问题回馈</span>
