@@ -36,16 +36,23 @@
             <h3 class="product-info-title">{{ product?.title }}</h3>
             <p class="product-info-date">{{ product?.date }}</p>
           </div>
-          <div class="product-info-theme-switch">
+          <div class="product-info-theme-switch" v-if="hasMultipleThemes">
             <button
+              v-if="product?.availableThemes?.dark"
               :class="['product-item-theme-btn', { active: currentTheme === 'dark' }]"
               @click="switchTheme('dark')">
               深色版
             </button>
             <button
+              v-if="product?.availableThemes?.light"
               :class="['product-item-theme-btn', { active: currentTheme === 'light' }]"
               @click="switchTheme('light')">
               浅色版
+            </button>
+          </div>
+          <div class="product-item-theme-switch" v-else>
+            <button class="product-item-theme-btn active" disabled>
+              {{ getOnlyThemeLabel }}
             </button>
           </div>
           <div class="product-info-image">
@@ -124,6 +131,43 @@ const currentTheme = ref<'dark' | 'light'>(route.params.theme as 'dark' | 'light
 const currentType = ref<'color' | 'custom'>((route.query.type as 'color' | 'custom') || 'color')
 const ProductContent = shallowRef<Component | null>(null)
 
+// 根據產品編號查找產品資料
+const product = computed(() => {
+  return templateList.products.find(p => p.number === productNumber.value)
+})
+
+// 檢查產品是否有多個主題
+const hasMultipleThemes = computed(() => {
+  if (!product.value?.availableThemes) return false
+  return product.value.availableThemes.dark === true && product.value.availableThemes.light === true
+})
+
+// 獲取唯一主題的標籤
+const getOnlyThemeLabel = computed(() => {
+  if (!product.value?.availableThemes) return ''
+  if (product.value.availableThemes.dark === true && product.value.availableThemes.light === false) {
+    return '深色版'
+  }
+  if (product.value.availableThemes.light === true && product.value.availableThemes.dark === false) {
+    return '淺色版'
+  }
+  return ''
+})
+// 切換主題
+const switchTheme = (theme: 'dark' | 'light') => {
+  // 檢查主題是否可用
+  if (product.value?.availableThemes && !product.value.availableThemes[theme]) {
+    console.warn(`主題 ${theme} 不可用於產品 ${productNumber.value}`)
+    return
+  }
+
+  currentTheme.value = theme
+  router.push({
+    path: `/${productNumber.value}/${theme}`,
+    query: { type: currentType.value }
+  })
+}
+
 const isSticky = ref(false)
 const isScreenHeightSupported = ref(true)
 const checkScreenHeight = () => {
@@ -133,13 +177,7 @@ const checkScreenHeight = () => {
 // TOC 相關狀態
 const tocItems = ref<Array<{ id: string; text: string }>>([])
 const activeId = ref<string>('')
-
 const showGoTop = ref(false)
-
-// 根據產品編號查找產品資料
-const product = computed(() => {
-  return templateList.products.find(p => p.number === productNumber.value)
-})
 
 // 動態載入產品組件
 const loadProductContent = () => {
@@ -150,6 +188,27 @@ const loadProductContent = () => {
         return import('@/components/template/Default.vue')
       })
   )
+}
+
+// 檢查路由參數的主題是否可用，如果不可用則重定向到可用的主題
+const validateTheme = () => {
+  if (product.value?.availableThemes) {
+    const currentThemeValue = currentTheme.value
+    if (!product.value.availableThemes[currentThemeValue]) {
+      // 如果當前主題不可用，重定向到第一個可用的主題
+      let availableTheme: 'light' | 'dark' = 'light'
+      if (product.value.availableThemes.light) {
+        availableTheme = 'light'
+      } else if (product.value.availableThemes.dark) {
+        availableTheme = 'dark'
+      }
+      
+      router.replace({
+        path: `/${productNumber.value}/${availableTheme}`,
+        query: { type: currentType.value }
+      })
+    }
+  }
 }
 
 // 生成 TOC 項目
@@ -166,7 +225,6 @@ const generateTocItems = () => {
     })
 
     tocItems.value = items
-    // console.log('TOC Items:', items) // 添加 debug 訊息
 
     if (items.length > 0) {
       activeId.value = items[0].id
@@ -202,20 +260,12 @@ const handleScroll = () => {
     }
   }
 }
+
 // 滾動到頂部
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
-  })
-}
-
-// 切換主題
-const switchTheme = (theme: 'dark' | 'light') => {
-  currentTheme.value = theme
-  router.push({
-    path: `/${productNumber.value}/${theme}`,
-    query: { type: currentType.value }
   })
 }
 
@@ -229,7 +279,6 @@ const switchType = (type: 'color' | 'custom') => {
 }
 
 const handleStickyScroll = () => {
-  // 只有在螢幕高度支援時才檢測 sticky 狀態
   if (!isScreenHeightSupported.value) {
     isSticky.value = false
     return
@@ -237,20 +286,27 @@ const handleStickyScroll = () => {
   const leftElement = document.querySelector('.product-detail-left')
   if (leftElement) {
     const rect = leftElement.getBoundingClientRect()
-    isSticky.value = rect.top <= 32 // 32px = 2rem
+    isSticky.value = rect.top <= 32
   }
 }
+
 const handleResize = () => {
   checkScreenHeight()
 }
 
 // 監聽變化，重新生成 TOC
 watch(() => [currentType.value, ProductContent.value], () => {
-  // 延遲執行,確保子組件已經渲染完成
   setTimeout(() => {
     generateTocItems()
   }, 100)
 }, { flush: 'post' })
+
+// 監聽產品變化，檢查主題可用性
+watch(() => product.value, () => {
+  if (product.value) {
+    validateTheme()
+  }
+}, { immediate: true })
 
 // 生命週期
 onMounted(() => {
@@ -259,7 +315,6 @@ onMounted(() => {
   window.addEventListener('scroll', handleStickyScroll)
   window.addEventListener('resize', handleResize)
 
-  // 延遲執行 TOC 生成
   setTimeout(() => {
     generateTocItems()
   }, 300)
@@ -274,7 +329,6 @@ onUnmounted(() => {
 // 監聽路由變化
 watch(() => productNumber.value, () => {
   loadProductContent()
-  // 路由變化後重新生成 TOC
   setTimeout(() => {
     generateTocItems()
   }, 200)
@@ -283,7 +337,6 @@ watch(() => productNumber.value, () => {
 watch(() => route.params.theme, (newTheme) => {
   if (newTheme) {
     currentTheme.value = newTheme as 'dark' | 'light'
-    // 主題變化後重新生成 TOC
     setTimeout(() => {
       generateTocItems()
     }, 100)
@@ -293,13 +346,11 @@ watch(() => route.params.theme, (newTheme) => {
 watch(() => route.query.type, (newType) => {
   if (newType) {
     currentType.value = newType as 'color' | 'custom'
-    // 類型變化後重新生成 TOC
     setTimeout(() => {
       generateTocItems()
     }, 100)
   }
 })
-
 
 // 提供給子組件使用的方法
 provide('switchType', switchType)

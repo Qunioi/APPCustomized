@@ -6,7 +6,11 @@
       "title": "版7-M21081101",
       "date": "2021-08-11",
       "defaultTheme": "dark",
-      "slideView": "12"
+      "slideView": "12",
+      "availableThemes": {
+        "dark": true,
+        "light": true
+      }
     },
     {
       "id": 2,
@@ -14,7 +18,11 @@
       "title": "版8-M21091501",
       "date": "2021-09-15",
       "defaultTheme": "light",
-      "slideView": "12"
+      "slideView": "12",
+      "availableThemes": {
+        "dark": true,
+        "light": true
+      }
     },
     {
       "id": 3,
@@ -22,7 +30,11 @@
       "title": "版10-M23061401",
       "date": "2023-06-14",
       "defaultTheme": "light",
-      "slideView": "12"
+      "slideView": "12",
+      "availableThemes": {
+        "dark": true,
+        "light": true
+      }
     },
     {
       "id": 4,
@@ -30,7 +42,11 @@
       "title": "版11-M24092601",
       "date": "2024-09-26",
       "defaultTheme": "dark",
-      "slideView": "7"
+      "slideView": "7",
+      "availableThemes": {
+        "dark": true,
+        "light": false
+      }
     }
   ]
 }

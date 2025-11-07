@@ -158,7 +158,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+
 const instance = getCurrentInstance()
 const $getImagePath = instance?.proxy?.$getImagePath
 
@@ -384,6 +388,12 @@ const openIconDialog = (data: any) => {
 // 关闭 Dialog
 const closeDialog = () => {
   isOpen.value = false
+  
+  // 如果是 icon 彈窗且當前在 /icon/:id 路由，返回 /icon
+  if (dialogType.value === 'icon' && route.params.id) {
+    router.push('/icon')
+  }
+  
   // 清空资料
   setTimeout(() => {
     iconData.value = null

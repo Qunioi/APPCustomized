@@ -5,28 +5,32 @@
       "number": "ICON007",
       "title": "ICON007",
       "date": "2021-08-11",
-      "defaultTheme": "none"
+      "defaultTheme": "none",
+      "show": true
     },
     {
       "id": 2,
       "number": "ICON008",
       "title": "ICON008",
       "date": "2021-09-15",
-      "defaultTheme": "none"
+      "defaultTheme": "none",
+      "show": true
     },
     {
       "id": 3,
       "number": "ICON010",
       "title": "ICON010",
       "date": "2023-06-14",
-      "defaultTheme": "light"
+      "defaultTheme": "light",
+      "show": true
     },
     {
       "id": 4,
       "number": "ICON011",
       "title": "ICON011",
       "date": "2024-09-26",
-      "defaultTheme": "none"
+      "defaultTheme": "none",
+      "show": true
     }
   ]
 }

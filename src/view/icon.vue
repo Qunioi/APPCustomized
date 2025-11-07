@@ -29,12 +29,38 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import iconList from '@/data/iconList.json'
 
+const route = useRoute()
+const router = useRouter()
 const openIconDialog = inject<(data: any) => void>('openIconDialog')
 
 const handleViewIcon = (icon: any) => {
+  // 更新網址到 /icon/ICON_ID
+  router.push(`/icon/${icon.number}`)
+  // 開啟彈窗
   openIconDialog?.(icon)
 }
+
+// 監聽路由變化，如果有 icon ID 參數則自動開啟對應彈窗
+onMounted(() => {
+  const iconId = route.params.id as string
+  if (iconId) {
+    const icon = iconList.icons.find(item => item.number === iconId)
+    if (icon) {
+      openIconDialog?.(icon)
+    }
+  }
+})
+
+// 監聽路由變化
+watch(() => route.params.id, (newId) => {
+  if (newId) {
+    const icon = iconList.icons.find(item => item.number === newId)
+    if (icon) {
+      openIconDialog?.(icon)
+    }
+  }
+})
 </script>

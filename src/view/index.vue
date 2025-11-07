@@ -2,7 +2,7 @@
   <div class="container">
     <div class="product-wrap">
       <div
-        v-for="(product, index) in products"
+        v-for="(product, index) in filteredProducts"
         :key="product.id"
         class="product-item"
         >
@@ -37,16 +37,23 @@
             <h3 class="product-item-title">{{ product.title }}</h3>
             <p class="product-item-date">{{ product.date }}</p>
           </div>
-          <div class="product-item-theme-switch">
+          <div class="product-item-theme-switch" v-if="hasMultipleThemes(product)">
             <button
+              v-if="product.availableThemes?.dark"
               :class="['product-item-theme-btn', { active: selectedTheme[product.id] === 'dark' }]"
               @click="selectedTheme[product.id] = 'dark'">
               深色版
             </button>
             <button
+              v-if="product.availableThemes?.light"
               :class="['product-item-theme-btn', { active: selectedTheme[product.id] === 'light' }]"
               @click="selectedTheme[product.id] = 'light'">
               浅色版
+            </button>
+          </div>
+          <div class="product-item-theme-switch" v-else>
+            <button class="product-item-theme-btn active" disabled>
+              {{ getOnlyThemeLabel(product) }}
             </button>
           </div>
         </div>
@@ -171,7 +178,31 @@ import templateList from '@/data/templateList.json'
 const router = useRouter()
 const env = import.meta.env
 const activeProductIndex = ref<number | null>(null)
-const products = ref(templateList.products)
+
+// 過濾顯示的產品 (根據 availableThemes 判斷)
+const filteredProducts = computed(() => {
+  return templateList.products.filter(product => {
+    if (!product.availableThemes) return false
+    // 只要有任何一個主題是 true 就顯示
+    return product.availableThemes.dark === true || product.availableThemes.light === true
+  })
+})
+// 檢查產品是否有多個主題
+const hasMultipleThemes = (product: any) => {
+  if (!product.availableThemes) return false
+  return product.availableThemes.dark === true && product.availableThemes.light === true
+}
+// 獲取唯一主題的標籤
+const getOnlyThemeLabel = (product: any) => {
+  if (!product.availableThemes) return ''
+  if (product.availableThemes.dark === true && product.availableThemes.light === false) {
+    return '深色版'
+  }
+  if (product.availableThemes.light === true && product.availableThemes.dark === false) {
+    return '淺色版'
+  }
+  return ''
+}
 
 // 生成 QR Code URL
 const getQRCodeUrl = (product: any) => {
@@ -188,9 +219,25 @@ const selectTemplate = (number: string, theme: 'dark' | 'light', type: 'color' |
   })
 }
 
+// 初始化主題選擇，根據 availableThemes 設定
 const selectedTheme = ref<Record<number, 'light' | 'dark'>>({})
 templateList.products.forEach(product => {
-  selectedTheme.value[product.id] = product.defaultTheme || 'light'
+  let defaultTheme: 'light' | 'dark' = 'light'
+
+  if (product.availableThemes) {
+    // 如果預設主題可用，使用預設主題
+    if (product.defaultTheme && product.availableThemes[product.defaultTheme] === true) {
+      defaultTheme = product.defaultTheme
+    }
+    // 否則選擇第一個可用的主題
+    else if (product.availableThemes.light === true) {
+      defaultTheme = 'light'
+    } else if (product.availableThemes.dark === true) {
+      defaultTheme = 'dark'
+    }
+  }
+
+  selectedTheme.value[product.id] = defaultTheme
 })
 
 // 开启 Slides 新视窗 (加入错误处理)

@@ -45,6 +45,12 @@ const router = createRouter({
       meta: { showInfo: true }
     },
     {
+      path: '/icon/:id',
+      name: 'iconDetail',
+      component: Icon,
+      meta: { showInfo: true }
+    },
+    {
       path: '/game',
       name: 'game',
       component: Game,

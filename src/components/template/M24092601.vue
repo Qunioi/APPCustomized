@@ -30,7 +30,7 @@
         <li><img :src="getImagePath('rules-color-4-1.jpg')"></li>
       </ul>
 
-      <div class="article-title">切换其他帐号、修改密码</div>
+      <div class="article-title">切换其他账号、修改密码</div>
       <ul class="article-image-list">
         <li><img :src="getImagePath('rules-color-5-1.jpg')"></li>
         <li><img :src="getImagePath('rules-color-5-2.jpg')"></li>
@@ -87,7 +87,7 @@
           <li><span class="article-num">❶</span>轮播图尺寸固定 (640x225)</li>
           <li><span class="article-num">❷</span>ICON变更样式需提供编辑档 (<a href="#" @click.prevent="handleResource('icon')">请参照范本</a>)</li>
           <li><span class="article-num">❸</span>厂商游戏图不可客制</li>
-          <li><span class="article-num">❹</span>平台入口图需提供全部档案 (<a href="#" @click.prevent="handleResource('game')">请参照列表</a>)</li>
+          <li><span class="article-num">❹</span>平台入口图需提供全部编辑档 (<a href="#" @click.prevent="handleResource('game')">请参照列表</a>)</li>
         </ol>
       </div>
       <ul class="article-image-list">
