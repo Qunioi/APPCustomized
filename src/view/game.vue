@@ -4,8 +4,8 @@
       <div class="page-header">
         <div class="page-header-top">
           <h2 class="page-header-title">游戏介接清单</h2>
-          <a 
-            :href="fileUrl" 
+          <a
+            :href="fileUrl"
             download="入口图ID表单.zip"
             class="page-header-download-btn">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

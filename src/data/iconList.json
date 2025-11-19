@@ -4,6 +4,7 @@
       "id": 1,
       "number": "ICON007",
       "title": "ICON007",
+      "template": "M21081101",
       "date": "2021-08-11",
       "defaultTheme": "none",
       "show": true
@@ -12,6 +13,7 @@
       "id": 2,
       "number": "ICON008",
       "title": "ICON008",
+      "template": "M21091501",
       "date": "2021-09-15",
       "defaultTheme": "none",
       "show": true
@@ -20,6 +22,7 @@
       "id": 3,
       "number": "ICON010",
       "title": "ICON010",
+      "template": "M23061401",
       "date": "2023-06-14",
       "defaultTheme": "light",
       "show": true
@@ -28,6 +31,7 @@
       "id": 4,
       "number": "ICON011",
       "title": "ICON011",
+      "template": "M24092601",
       "date": "2024-09-26",
       "defaultTheme": "none",
       "show": true

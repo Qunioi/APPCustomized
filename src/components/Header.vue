@@ -63,12 +63,6 @@
           to="/game">
           游戏介接
         </router-link>
-        <router-link
-          class="header-navigation-item"
-          :class="{ 'header-navigation-item--active': currentRoute === '/faq' }"
-          to="/faq">
-          常见问题
-        </router-link>
       </nav>
     </div>
     <div class="header-feedback">

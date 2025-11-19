@@ -69,7 +69,7 @@
               <div class="en">File & Image Download</div>
             </div>
           </button>
-          <button class="product-download-btn">
+          <button class="product-download-btn" @click="handleIconDownload">
             <div class="icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_421_53)"><path d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28Z" fill="#D2281F"/><path d="M21.1399 9.19335C21.0779 9.13087 21.0042 9.08127 20.923 9.04743C20.8417 9.01358 20.7546 8.99615 20.6666 8.99615C20.5786 8.99615 20.4914 9.01358 20.4102 9.04743C20.329 9.08127 20.2552 9.13087 20.1933 9.19335L19.3333 10.06V6.33335C19.3333 6.15654 19.263 5.98697 19.138 5.86195C19.013 5.73692 18.8434 5.66669 18.6666 5.66669C18.4898 5.66669 18.3202 5.73692 18.1952 5.86195C18.0702 5.98697 17.9999 6.15654 17.9999 6.33335V10.06L17.1399 9.19335C17.0144 9.06782 16.8441 8.99729 16.6666 8.99729C16.4891 8.99729 16.3188 9.06782 16.1933 9.19335C16.0677 9.31889 15.9972 9.48915 15.9972 9.66669C15.9972 9.84422 16.0677 10.0145 16.1933 10.14L18.1933 12.14C18.2567 12.2007 18.3314 12.2483 18.4133 12.28C18.4931 12.3153 18.5793 12.3335 18.6666 12.3335C18.7538 12.3335 18.8401 12.3153 18.9199 12.28C19.0018 12.2483 19.0765 12.2007 19.1399 12.14L21.1399 10.14C21.2024 10.078 21.252 10.0043 21.2858 9.92307C21.3197 9.84183 21.3371 9.75469 21.3371 9.66669C21.3371 9.57868 21.3197 9.49154 21.2858 9.4103C21.252 9.32906 21.2024 9.25533 21.1399 9.19335ZM18.6666 13.6667C18.4898 13.6667 18.3202 13.7369 18.1952 13.8619C18.0702 13.987 17.9999 14.1565 17.9999 14.3334V14.5867L17.0133 13.6C16.6649 13.2544 16.194 13.0604 15.7033 13.0604C15.2125 13.0604 14.7416 13.2544 14.3933 13.6L13.9266 14.0667L12.2733 12.4134C11.92 12.0771 11.451 11.8895 10.9633 11.8895C10.4755 11.8895 10.0065 12.0771 9.65325 12.4134L8.66659 13.4V9.66669C8.66659 9.48988 8.73682 9.32031 8.86185 9.19528C8.98687 9.07026 9.15644 9.00002 9.33325 9.00002H14.6666C14.8434 9.00002 15.013 8.92978 15.138 8.80476C15.263 8.67973 15.3333 8.51016 15.3333 8.33335C15.3333 8.15654 15.263 7.98697 15.138 7.86195C15.013 7.73693 14.8434 7.66669 14.6666 7.66669H9.33325C8.80282 7.66669 8.29411 7.8774 7.91904 8.25247C7.54397 8.62755 7.33325 9.13625 7.33325 9.66669V17.6667C7.33325 18.1971 7.54397 18.7058 7.91904 19.0809C8.29411 19.456 8.80282 19.6667 9.33325 19.6667H17.3333C17.8637 19.6667 18.3724 19.456 18.7475 19.0809C19.1225 18.7058 19.3333 18.1971 19.3333 17.6667V14.3334C19.3333 14.1565 19.263 13.987 19.138 13.8619C19.013 13.7369 18.8434 13.6667 18.6666 13.6667ZM9.33325 18.3334C9.15644 18.3334 8.98687 18.2631 8.86185 18.1381C8.73682 18.0131 8.66659 17.8435 8.66659 17.6667V15.2867L10.5999 13.3534C10.6979 13.26 10.828 13.208 10.9633 13.208C11.0985 13.208 11.2286 13.26 11.3266 13.3534L13.4399 15.4667L16.3066 18.3334H9.33325ZM17.9999 17.6667C17.9985 17.7942 17.9565 17.918 17.8799 18.02L14.8733 15L15.3399 14.5334C15.3877 14.4846 15.4448 14.4458 15.5077 14.4194C15.5707 14.3929 15.6383 14.3793 15.7066 14.3793C15.7749 14.3793 15.8425 14.3929 15.9054 14.4194C15.9684 14.4458 16.0255 14.4846 16.0733 14.5334L17.9999 16.4734V17.6667Z" fill="white"/></g><defs><clipPath id="clip0_421_53"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></div>
             <div class="text">
               <div class="cn">ICON图包下载</div>
@@ -117,12 +117,16 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import templateList from '@/data/templateList.json'
 import { useResources } from '@/composables/useResources'
+import { useAssets } from '@/composables/useAssets'
+import templateList from '@/data/templateList.json'
+import iconList from '@/data/iconList.json'
 
 const route = useRoute()
 const router = useRouter()
 const { handleResource, openGameList, openIconList } = useResources()
+
+const { getFilePath } = useAssets()
 
 
 // 從路由參數獲取產品編號和主題
@@ -168,6 +172,43 @@ const switchTheme = (theme: 'dark' | 'light') => {
   })
 }
 
+
+// 處理 ICON 下載按鈕點擊
+const handleIconDownload = () => {
+  // 根據當前產品編號查找對應的 icon 資料（透過 template 欄位比對）
+  const iconData = iconList.icons.find(icon => icon.template === productNumber.value)
+
+  if (iconData) {
+    const { number, defaultTheme } = iconData
+    let originalFileName = number
+    let downloadFileName = `${iconData.template}-${number}`
+
+    // 判斷是否需要根據主題區分
+    if (defaultTheme && defaultTheme !== 'none') {
+      // 有主題區分：根據當前頁面主題決定下載哪個版本
+      const themeSuffix = currentTheme.value === 'dark' ? '(Dark)' : '(Light)'
+      originalFileName = `${number}${themeSuffix}`
+      downloadFileName = `${downloadFileName}${themeSuffix}`
+    }
+    // defaultTheme 為 'none' 時：直接使用 number，不加後綴
+
+    // 使用 getFilePath 取得正確的檔案路徑
+    const downloadUrl = getFilePath(`${originalFileName}.zip`)
+
+    // 建立隱藏的 <a> 標籤進行下載
+    const link = document.createElement('a')
+    link.href = downloadUrl
+    link.download = `${downloadFileName}.zip`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  } else {
+    console.error('找不到對應的 ICON 資料')
+  }
+}
+
+
+// 偵測是否支援高度以啟用 sticky 功能
 const isSticky = ref(false)
 const isScreenHeightSupported = ref(true)
 const checkScreenHeight = () => {

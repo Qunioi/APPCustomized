@@ -149,7 +149,7 @@
             <img :src="currentImagePath" :alt="iconData?.number" class="iconDialog-image">
           </div>
           <div class="iconDialog-download-wrap">
-            <button class="iconDialog-download-btn">ICON图包下载</button>
+            <button class="iconDialog-download-btn" @click="handleIconDownload">ICON图包下载</button>
           </div>
         </div>
       </div>
@@ -159,12 +159,16 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
+import { useAssets } from '@/composables/useAssets'
 
 const route = useRoute()
 const router = useRouter()
 
 const instance = getCurrentInstance()
 const $getImagePath = instance?.proxy?.$getImagePath
+
+// 加入檔案路徑處理
+const { getFilePath } = useAssets()
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwMzUckTYVrcIL_QALK3Br0fUAqpI6UJh_de5xS3mMmi-Fz06KfaG-LOFJdReIRBqlzyw/exec'
 
@@ -359,6 +363,32 @@ const currentImagePath = computed(() => {
 const switchTheme = (theme: 'light' | 'dark') => {
   currentTheme.value = theme
 }
+
+// 處理 ICON 下載
+const handleIconDownload = () => {
+  if (!iconData.value) return
+
+  const { number, defaultTheme } = iconData.value
+  let fileName = number
+
+  // 根據主題決定檔案名稱
+  if (defaultTheme && defaultTheme !== 'none') {
+    const themeSuffix = currentTheme.value === 'dark' ? '(Dark)' : '(Light)'
+    fileName = `${number}${themeSuffix}`
+  }
+
+  // 使用 getFilePath 取得正確的檔案路徑
+  const downloadUrl = getFilePath(`${fileName}.zip`)
+
+  // 建立隱藏的 <a> 標籤進行下載
+  const link = document.createElement('a')
+  link.href = downloadUrl
+  link.download = `${fileName}.zip`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 
 // 开启 Feedback Dialog
 const openFeedbackDialog = () => {
