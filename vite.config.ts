@@ -17,9 +17,9 @@ export default defineConfig(({ mode }) => {
         imports: ['vue', 'vue-router', 'pinia'],
         // 讓 <template> 裡也能用（如直接寫 ref/computed）
         vueTemplate: true,
-        // 產生 d.ts，最好放在 src 底下，TS/IDE 比較好抓
+        // 產生 d.ts,最好放在 src 底下,TS/IDE 比較好抓
         dts: 'src/auto-imports.d.ts',
-        // 讓 ESLint 知道這些是全域自動導入，避免 no-undef
+        // 讓 ESLint 知道這些是全域自動導入,避免 no-undef
         eslintrc: {
           enabled: true,
           globalsPropValue: true,
@@ -44,5 +44,22 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      rollupOptions: {
+        output: {
+          assetFileNames: (assetInfo) => {
+            const extType = assetInfo.name.split('.').pop()
+            if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp/i.test(extType)) {
+              return 'assets/images/[name].[hash][extname]'
+            }
+            return 'assets/[name].[hash][extname]'
+          },
+          chunkFileNames: 'assets/js/[name].[hash].js',
+          entryFileNames: 'assets/js/[name].[hash].js'
+        }
+      }
+    }
   }
 })
