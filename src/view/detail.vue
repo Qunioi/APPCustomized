@@ -173,37 +173,26 @@ const switchTheme = (theme: 'dark' | 'light') => {
 }
 
 
-// 處理 ICON 下載按鈕點擊
+// 處理 ICON 下載按鈕點擊 - 直接開啟彈窗
+const openIconDialog = inject<(data: any) => void>('openIconDialog')
 const handleIconDownload = () => {
   // 根據當前產品編號查找對應的 icon 資料（透過 template 欄位比對）
   const iconData = iconList.icons.find(icon => icon.template === productNumber.value)
 
-  if (iconData) {
-    const { number, defaultTheme } = iconData
-    let originalFileName = number
-    let downloadFileName = `${iconData.template}-${number}`
-
-    // 判斷是否需要根據主題區分
-    if (defaultTheme && defaultTheme !== 'none') {
-      // 有主題區分：根據當前頁面主題決定下載哪個版本
-      const themeSuffix = currentTheme.value === 'dark' ? '(Dark)' : '(Light)'
-      originalFileName = `${number}${themeSuffix}`
-      downloadFileName = `${downloadFileName}${themeSuffix}`
+  if (iconData && openIconDialog) {
+    // 如果 defaultTheme 不是 none，需要傳遞當前頁面的主題
+    if (iconData.defaultTheme && iconData.defaultTheme !== 'none') {
+      // 傳遞當前頁面的主題給 Dialog
+      openIconDialog({
+        ...iconData,
+        pageTheme: currentTheme.value // 加入當前頁面主題
+      })
+    } else {
+      // defaultTheme 為 none 時，直接傳遞原始資料
+      openIconDialog(iconData)
     }
-    // defaultTheme 為 'none' 時：直接使用 number，不加後綴
-
-    // 使用 getFilePath 取得正確的檔案路徑
-    const downloadUrl = getFilePath(`${originalFileName}.zip`)
-
-    // 建立隱藏的 <a> 標籤進行下載
-    const link = document.createElement('a')
-    link.href = downloadUrl
-    link.download = `${downloadFileName}.zip`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
   } else {
-    console.error('找不到對應的 ICON 資料')
+    console.error('找不到對應的 ICON 資料或 openIconDialog 方法')
   }
 }
 

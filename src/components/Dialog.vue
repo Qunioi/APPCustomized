@@ -403,12 +403,16 @@ const openFeedbackDialog = () => {
 const openIconDialog = (data: any) => {
   dialogType.value = 'icon'
   iconData.value = data
-  
+
   // 设定预设主题
   if (data.defaultTheme && data.defaultTheme !== 'none') {
-    currentTheme.value = data.defaultTheme
+    // 如果有傳遞頁面主題，使用頁面主題；否則使用預設主題
+    currentTheme.value = data.pageTheme || data.defaultTheme
+  } else {
+    // defaultTheme 為 none 時，使用預設的 light
+    currentTheme.value = 'light'
   }
-  
+
   isOpen.value = true
   nextTick(() => {
     dialogRef.value?.showModal()
